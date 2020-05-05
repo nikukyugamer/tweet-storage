@@ -1,11 +1,11 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  pool:     <%= Rails.application.credentials[:rails_max_threads] || 5 %>
-  host:     <%= Rails.application.credentials[:postgres_host] || 'localhost' %>
-  port:     <%= Rails.application.credentials[:postgres_port] || 5432 %>
-  username: <%= Rails.application.credentials[:postgres_username] || 'tweet_storage' %>
-  password: <%= Rails.application.credentials[:postgres_password] || 'tweet_storage' %>
+  pool:     <%= ENV['RAILS_MAX_THREADS'] || Rails.application.credentials[:rails_max_threads] || 5 %>
+  host:     <%= ENV['POSTGRES_HOST'] || Rails.application.credentials[:postgres_host] || 'localhost' %>
+  port:     <%= ENV['POSTGRES_PORT'] || Rails.application.credentials[:postgres_port] || 5432 %>
+  username: <%= ENV['POSTGRES_USERNAME'] || Rails.application.credentials[:postgres_username] || 'tweet_storage' %>
+  password: <%= ENV['POSTGRES_PASSWORD'] || Rails.application.credentials[:postgres_password] || 'tweet_storage' %>
 
 production:
   <<: *default
