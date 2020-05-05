@@ -1,0 +1,140 @@
+on: [push]
+name: Tweet Storage
+jobs:
+  challenging_rails_github_actions:
+    name: Tweet Storage CI
+    runs-on: ubuntu-latest
+    container:
+      image: ruby:2.7.1
+      env:
+        BUNDLE_PATH: vendor/bundle
+    services:
+      postgres:
+        image: postgres:12.2
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: tweet_storage
+          POSTGRES_PASSWORD: tweet_storage
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+    - uses: actions/checkout@v2
+    - name: 基本パッケージのインストールを行う
+      run: |
+        apt-get update
+        apt-get install -y gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget lsof
+    # - name: Headless Chrome のインストールを行う
+    #   run: |
+    #     apt-get update
+    #     apt-get install -y wget libgconf-2-4
+    #     wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+    #     sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+    #     apt-get update
+    #     apt-get install -y google-chrome-unstable
+    #     rm -rf /var/lib/apt/lists/*
+    # - name: Google Noto Fonts のインストールを行う
+    #   run: |
+    #     apt-get update
+    #     apt-get install -y fonts-noto
+    # - name: Yarn のインストールを行う
+    #   run: |
+    #     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+    #     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+    #     apt-get update
+    #     apt-get install -y yarn
+    # - name: Yarn のキャッシュのパスを取得する
+    #   id: yarn-cache
+    #   run: echo "::set-output name=dir::$(yarn cache dir)"
+    # - name: Yarn のキャッシュファイルを取得する
+    #   uses: actions/cache@v1
+    #   with:
+    #     path: ${{ steps.yarn-cache.outputs.dir }}
+    #     key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+    #     restore-keys: |
+    #       ${{ runner.os }}-yarn-
+    # - name: Bundler の 最新版 を入れる
+    #   run: |
+    #     gem install bundler --no-document
+    #   # run: |
+    #   #   gem install bundler --no-document -v 1.17.3 || true
+    # - name: RubyGems のキャッシュを復元する
+    #   uses: actions/cache@v1
+    #   id: rubygems-cache
+    #   with:
+    #     path: vendor/bundle
+    #     key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
+    #     restore-keys: |
+    #       ${{ runner.os }}-gem-
+    # - name: $ bundle install を行う
+    #   run: |
+    #     bundle config set deployment 'true'
+    #     bundle install --jobs 4 --retry 3
+    # - name: $ yarn install を行う
+    #   run: |
+    #     yarn install
+    # - name: $ bundle exec rails db:create を行う
+    #   run: |
+    #     bundle exec rails db:create
+    #   env:
+    #     PG_HOST: postgres
+    #     RAILS_ENV: test
+    # - name: $ bundle exec rails db:migrate を行う
+    #   run: |
+    #     bundle exec rails db:migrate
+    #   env:
+    #     PG_HOST: postgres
+    #     RAILS_ENV: test
+    # - name: $ bundle exec rails db:seed を行う
+    #   run: |
+    #     bundle exec rails db:seed
+    #   env:
+    #     PG_HOST: postgres
+    #     RAILS_ENV: test
+    # - name: $ bundle exec rails assets:precompile を行う
+    #   run: |
+    #     bundle exec rails assets:precompile
+    # - name: RSpec を実行する
+    #   if: always()
+    #   run: |
+    #     bundle exec rspec
+    #   env:
+    #     PG_HOST: postgres
+    #     RAILS_ENV: test
+    # # - name: Jest を実行する（GitHub Actions 上でいきなり失敗し始めたので保留中）
+    # #   if: always()
+    # #   run: |
+    # #     echo "GitHub Actions 側の問題（？）で Protocol error: Connection closed. Most likely the page has been closed. が出るのでいったん実行を保留する"
+    #     # cp .env.github_actions .env
+    #     # yarn test:github_actions
+    #     # if [ -f tmp/pids/server.pid ]; then rm -f tmp/pids/server.pid ; fi
+    #   # env:
+    #   #   PGHOST: postgres
+    #   #   RAILS_ENV: test
+    # - name: RuboCop を実行する
+    #   if: always()
+    #   run: |
+    #     bundle exec rubocop -D -E -S -P
+    # # - name: ESLint を実行する
+    # #   if: always()
+    # #   run: |
+    # #     yarn lint
+    # # - name: Slack 通知（成功時）
+    # #   if: success()
+    # #   uses: rtCamp/action-slack-notify@master
+    # #   env:
+    # #     SLACK_TITLE: RSpec & Jest & RuboCop & ESLint
+    # #     SLACK_USERNAME: ねこ
+    # #     SLACK_ICON:
+    # #     SLACK_COLOR: '#3cb371'
+    # #     # 'Secrets' に入れる
+    # #     SLACK_WEBHOOK: https://hooks.slack.com/services/???/???/???
+    # # - name: Slack 通知（失敗時）
+    # #   if: failure()
+    # #   uses: rtCamp/action-slack-notify@master
+    # #   env:
+    # #     SLACK_TITLE: RSpec & Jest & RuboCop & ESLint
+    # #     SLACK_USERNAME: なみだ
+    # #     SLACK_ICON:
+    # #     SLACK_COLOR: '#ff3366'
+    # #     # 'Secrets' に入れる
+    # #     SLACK_WEBHOOK: https://hooks.slack.com/services/???/???/???
