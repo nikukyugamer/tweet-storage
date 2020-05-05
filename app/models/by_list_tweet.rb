@@ -1,0 +1,2 @@
+class ByListTweet < Tweet
+end

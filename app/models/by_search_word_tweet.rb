@@ -1,0 +1,2 @@
+class BySearchWordTweet < Tweet
+end
