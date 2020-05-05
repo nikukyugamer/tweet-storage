@@ -1,0 +1,86 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:2.7.1
+      - image: circleci/postgres:12.2
+        environment:
+          - POSTGRES_USER: tweet_storage
+          - POSTGRES_PASSWORD: tweet_storage
+          - POSTGRES_DB: tweet_storage_test
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore RubyGems Cache
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            - v1-dependencies-
+      - restore_cache:
+          name: Restore Yarn Cache
+          keys:
+            - yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-v1-{{ .Branch }}-
+            - yarn-packages-v1-
+      - run:
+          name: Install Bundler 2
+          command: |
+            gem install bundler
+      - run:
+          name: Install Yarn
+          command: |
+            curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+            echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+            sudo apt-get update -y && sudo apt-get install yarn -y
+      - run:
+          name: Bundle install
+          command: |
+            bundle config set path 'vendor/bundle'
+            bundle install --jobs=4 --retry=3
+      - save_cache:
+          name: Save RubyGems Cache
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+      - save_cache:
+          name: Save Yarn Cache
+          paths:
+            - ~/.cache/yarn
+          key: yarn-packages-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - run:
+          name: $ yarn install を行う
+          command: |
+            yarn install
+      - run:
+          name: $ bundle exec rails db:create を行う
+          command: |
+            bundle exec rails db:create
+      - run:
+          name: $ bundle exec rails db:migrate を行う
+          command: |
+            bundle exec rails db:migrate
+      - run:
+          name: $ bundle exec rails db:seed を行う
+          command: |
+            bundle exec rails db:seed
+      - run:
+          name: RuboCop
+          command: bundle exec rubocop -D -E -S -P
+      - run:
+          name: run tests
+          command: |
+            mkdir /tmp/test-results
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | \
+              circleci tests split --split-by=timings)"
+
+            bundle exec rspec \
+              --format progress \
+              --format RspecJunitFormatter \
+              --out /tmp/test-results/rspec.xml \
+              --format progress \
+              $TEST_FILES
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results

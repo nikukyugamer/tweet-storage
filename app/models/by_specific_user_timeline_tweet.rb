@@ -1,0 +1,2 @@
+class BySpecificUserTimelineTweet < Tweet
+end

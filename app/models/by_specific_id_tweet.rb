@@ -1,0 +1,2 @@
+class BySpecificIdTweet < Tweet
+end
