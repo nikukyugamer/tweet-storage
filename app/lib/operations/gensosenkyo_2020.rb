@@ -9,7 +9,7 @@ module Operations
         # Spreadsheetに書き込む
         target_tweets = BySearchWordTweet.where(search_word: search_query).remove_duplicated.remove_retweet.order_by_id_number_asc
 
-        sheet_object_key = ENV['SPREADSHEET_ID'] || Rails.application.credentials[:spreadsheet_id]
+        sheet_object_key = ENV['GENSOSENKYO_2020_PRODUCTION_SPREADSHEET_ID'] || Rails.application.credentials[:spreadsheet_id]
         Spreadsheet::Gensosenkyo2020.save_to_worksheet(target_tweets, sheet_object_key, worksheet_title: search_query)
       end
 
@@ -17,7 +17,7 @@ module Operations
         # Tweet は DB に格納されているものとする
         target_tweets = BySearchWordTweet.where(search_word: search_query).remove_duplicated.order_by_id_number_asc
 
-        sheet_object_key = ENV['SPREADSHEET_ID_FOR_LOG'] || Rails.application.credentials[:spreadsheet_id_for_log]
+        sheet_object_key = ENV['GENSOSENKYO_2020_DEVELOPMENT_SPREADSHEET_ID'] || Rails.application.credentials[:spreadsheet_id_for_log]
         Spreadsheet::Gensosenkyo2020.save_to_worksheet(target_tweets, sheet_object_key, worksheet_title: search_query)
       end
     end
