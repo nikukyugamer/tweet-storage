@@ -114,7 +114,7 @@ class Tweet < ApplicationRecord
     end
   end
 
-  def self.latest_id_number
+  def self.max_id_number
     order(id_number: :desc).first.id_number
   end
 
