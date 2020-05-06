@@ -57,6 +57,32 @@ module Spreadsheet
         worksheet[current_row, current_column] = tweet.tweeted_at_in_japanese
       end
 
+      # TODO: Does it take a lot of time?
+      def last_valid_row_number(sheet_object_key, worksheet_title:)
+        worksheet = worksheet(sheet_object_key, worksheet_title: worksheet_title)
+        scanned_max_number_of_column = gensosenkyo_2020_column_names.size
+        last_valid_row_number = 1
+
+        # TODO: Refactoring
+        scanned_max_number_of_row = 10_000_000
+
+        scanned_max_number_of_row.times do |number_of_row|
+          loop_end_flag = true
+
+          scanned_max_number_of_column.times do |number_of_column|
+            if worksheet[(number_of_row + 1), (number_of_column + 1)].present?
+              loop_end_flag = false
+              break
+            end
+          end
+
+          last_valid_row_number = (number_of_row + 1) - 1
+          break if loop_end_flag
+        end
+
+        last_valid_row_number
+      end
+
       # TODO: Refactoring (exclude)
       def session
         GoogleDrive::Session.from_config(Rails.root.join('config/google_api_config.json').to_s)
