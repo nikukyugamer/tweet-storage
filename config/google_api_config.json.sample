@@ -1,0 +1,9 @@
+{
+  "client_id": "111111111111-abcdefg.apps.googleusercontent.com",
+  "client_secret": "fOoBaR",
+  "scope": [
+    "https://www.googleapis.com/auth/drive",
+    "https://spreadsheets.google.com/feeds/"
+  ],
+  "refresh_token": "hOgEfugA"
+}
