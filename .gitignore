@@ -18,6 +18,7 @@ vendor/
 .byebug_history
 
 /config/master.key
+config/google_api_config.json
 
 /public/packs
 /public/packs-test
