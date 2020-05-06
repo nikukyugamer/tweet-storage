@@ -6,7 +6,26 @@ class Tweet < ApplicationRecord
 
   scope :order_by_id_desc, -> { order(id_number: :desc) }
   scope :latest, -> { order(id_number: :desc).first }
-  scope :remove_duplicated, -> { }
+
+  # TODO: Refactoring
+  # Pick up the latest id_number record
+  scope :remove_duplicated, lambda {
+    tweet_id_numbers = pluck(:id_number)
+    duplicated_tweet_id_numbers = tweet_id_numbers.select{|id_number| tweet_id_numbers.count(id_number) > 1}.uniq
+    removed_tweet_index_ids = []
+
+    duplicated_tweet_id_numbers.each do |id_number|
+      target_tweet_records = where(id_number: id_number)
+      target_tweet_latest_record = where(id_number: id_number).order(created_at: :desc).first
+
+      target_tweet_records.each do |record|
+        # Old records will be removed
+        removed_tweet_index_ids << record.id if record.created_at < target_tweet_latest_record.created_at
+      end
+    end
+
+    where.not(id: removed_tweet_index_ids)
+  }
 
   # https://www.rubydoc.info/gems/twitter/Twitter/Tweet
   # TODO: Refactoring
