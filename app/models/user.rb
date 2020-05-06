@@ -9,7 +9,7 @@ class User < ApplicationRecord
   scope :remove_duplicated, lambda {
     user_id_numbers             = pluck(:id_number)
     duplicated_user_id_numbers  = user_id_numbers.select{|id_number| user_id_numbers.count(id_number) > 1}.uniq
-    removed_user_ids = []
+    removed_user_index_ids = []
 
     duplicated_user_id_numbers.each do |id_number|
       target_user_records = where(id_number: id_number)
@@ -17,11 +17,11 @@ class User < ApplicationRecord
 
       target_user_records.each do |record|
         # Old records will be removed
-        removed_user_ids << record.id if record.created_at < target_user_latest_record.created_at
+        removed_user_index_ids << record.id if record.created_at < target_user_latest_record.created_at
       end
     end
 
-    where.not(id: removed_user_ids)
+    where.not(id: removed_user_index_ids)
   }
 
   def self.save_serialized_data(*users)
