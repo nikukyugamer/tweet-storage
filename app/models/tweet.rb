@@ -27,8 +27,8 @@ class Tweet < ApplicationRecord
     where.not(id: removed_tweet_index_ids)
   }
 
-  # https://www.rubydoc.info/gems/twitter/Twitter/Tweet
   # TODO: Refactoring
+  # https://www.rubydoc.info/gems/twitter/Twitter/Tweet
   delegate :retweet?, to: :deserialize
   delegate :uri, to: :deserialize
   delegate :source, to: :deserialize
