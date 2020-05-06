@@ -6,6 +6,14 @@
 # TweetStorage
 - Tweet Storage
 
+# Rate limits
+
+## Standard search API
+- 180 Requests / 15-min window (user auth)
+- 12 Requests / 1-min window (user auth)
+- 1 Request / 5-sec window (user auth)
+  - https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets
+
 # Standard search operators
 - https://developer.twitter.com/en/docs/tweets/rules-and-filtering/overview/standard-operators
 
