@@ -114,6 +114,14 @@ class Tweet < ApplicationRecord
     end
   end
 
+  def self.latest_id_number
+    order(id_number: :desc).first.id_number
+  end
+
+  def self.minimum_id_number
+    order(id_number: :asc).first.id_number
+  end
+
   # TODO: Change to be valid when the columns are removed
   # delegate :full_text, to: :deserialize
   # def id_number
