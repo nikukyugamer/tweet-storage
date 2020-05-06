@@ -11,6 +11,7 @@ RSpec.describe ByListTweet, type: :model do
         list_name: 'Awesome List',
         list_serialized_object: {}
       )
+      by_list_tweet.user = FactoryBot.build(:user)
 
       by_list_tweet.valid?
       expect(by_list_tweet.errors.messages).not_to be_empty
@@ -27,6 +28,7 @@ RSpec.describe ByListTweet, type: :model do
         list_id_number: 55555,
         list_serialized_object: {}
       )
+      by_list_tweet.user = FactoryBot.build(:user)
 
       by_list_tweet.valid?
       expect(by_list_tweet.errors.messages).not_to be_empty
@@ -43,6 +45,7 @@ RSpec.describe ByListTweet, type: :model do
         list_id_number: 55555,
         list_name: 'Awesome List'
       )
+      by_list_tweet.user = FactoryBot.build(:user)
 
       by_list_tweet.valid?
       expect(by_list_tweet.errors.messages).not_to be_empty
@@ -52,7 +55,6 @@ RSpec.describe ByListTweet, type: :model do
   describe "'list_id_number', 'list_name' and 'list_serialized_object' column" do
     it 'If exist, a validation is true' do
       by_list_tweet = ByListTweet.new(
-        user_id: 12345,
         id_number: 54321,
         full_text: 'Hello, World!',
         serialized_object: {},
@@ -62,6 +64,7 @@ RSpec.describe ByListTweet, type: :model do
           foo: 'bar'
         }
       )
+      by_list_tweet.user = FactoryBot.build(:user)
 
       by_list_tweet.valid?
       expect(by_list_tweet.errors.messages).to be_empty
