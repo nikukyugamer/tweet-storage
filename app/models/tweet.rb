@@ -4,7 +4,8 @@ class Tweet < ApplicationRecord
 
   belongs_to :user
 
-  scope :order_by_id_desc, -> { order(id_number: :desc) }
+  scope :order_by_id_number_desc, -> { order(id_number: :desc) }
+  scope :order_by_id_number_asc, -> { order(id_number: :asc) }
   scope :latest, -> { order(id_number: :desc).first }
 
   # TODO: Refactoring
@@ -36,6 +37,9 @@ class Tweet < ApplicationRecord
 
     where.not(id: retweet_tweet_index_ids)
   }
+
+  # TODO: Refactoring ('1471724029')
+  scope :remove_tweet_by_gensosenkyo, -> { select {|tweet| tweet.user.id_number != 1471724029 } }
 
   # TODO: Refactoring
   # https://www.rubydoc.info/gems/twitter/Twitter/Tweet
@@ -102,9 +106,13 @@ class Tweet < ApplicationRecord
     media.size.to_i
   end
 
-  # "2020/05/05（火） 20:54:45"
   def tweeted_at
-    japanese_date_expression(created_at)
+    deserialize.created_at
+  end
+
+  # "2020/05/05（火） 20:54:45"
+  def tweeted_at_in_japanese
+    japanese_date_expression(tweeted_at)
   end
 
   def array_of_media_urls
