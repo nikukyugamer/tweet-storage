@@ -5,6 +5,7 @@ ruby '2.7.1'
 
 gem 'aws-sdk-s3'
 gem 'bootsnap', require: false
+gem 'google_drive'
 gem 'jbuilder'
 gem 'pg'
 gem 'pry-rails'
