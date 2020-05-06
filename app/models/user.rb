@@ -5,6 +5,39 @@ class User < ApplicationRecord
   has_many :tweets
 
   # TODO: Refactoring
+  # https://rdoc.info/gems/twitter/Twitter/User
+  delegate :connections, to: :deserialize
+  delegate :description, to: :deserialize
+  delegate :email, to: :deserialize
+  delegate :favourites_count, to: :deserialize
+  delegate :followers_count, to: :deserialize
+  delegate :friends_count, to: :deserialize
+  delegate :lang, to: :deserialize
+  delegate :listed_count, to: :deserialize
+  delegate :location, to: :deserialize
+  delegate :name, to: :deserialize
+  delegate :profile_background_color, to: :deserialize
+  delegate :profile_link_color, to: :deserialize
+  delegate :profile_sidebar_border_color, to: :deserialize
+  delegate :profile_sidebar_fill_color, to: :deserialize
+  delegate :profile_text_color, to: :deserialize
+  delegate :statuses_count, to: :deserialize
+  delegate :time_zone, to: :deserialize
+  delegate :utc_offset, to: :deserialize
+  delegate :screen_name, to: :deserialize
+  delegate :attrs, to: :deserialize
+  delegate :uri, to: :deserialize
+  delegate :website, to: :deserialize
+  delegate :website?, to: :deserialize
+  delegate :profile_banner_uri?, to: :deserialize
+  delegate :profile_banner_uri_https, to: :deserialize
+  delegate :profile_image_uri?, to: :deserialize
+  delegate :profile_image_uri_https, to: :deserialize
+  delegate :created?, to: :deserialize
+  delegate :created_at, to: :deserialize
+  delegate :protected?, to: :deserialize
+
+  # TODO: Refactoring
   # Pick up the latest record
   scope :remove_duplicated, lambda {
     user_id_numbers             = pluck(:id_number)
@@ -24,27 +57,23 @@ class User < ApplicationRecord
     where.not(id: removed_user_index_ids)
   }
 
-  def self.save_serialized_data(*users)
-    serialized(users).each do |data|
-      de_serialized_data = Twitter::User.new(JSON.parse(data, symbolize_names: true))
-
-      user_object = User.new(
-        id_number: de_serialized_data.id,
-        name: de_serialized_data.name,
-        screen_name: de_serialized_data.screen_name,
-        serialized_object: data
-      )
-
-      # FIXME: In case of errors, notify and write to logger
-      # ex. 'Twitter::Error::NotFound: No user matches for specified terms.'
-      user_object.save
-    end
+  def deserialize
+    Twitter::User.new(JSON.parse(serialized_object, symbolize_names: true))
   end
 
-  def self.serialized(*users)
-    # There are two methods, #user and #users
-    # https://www.rubydoc.info/gems/twitter/Twitter/REST/Users
-    user_objects = client.users(users)
-    user_objects.map(&:to_json)
+  def url
+    uri.to_s
+  end
+
+  def profile_banner_url
+    # :ipad_retina is the max resolution
+    # https://rdoc.info/gems/twitter/Twitter/Profile#profile_image_uri_https-instance_method
+    profile_banner_uri_https(:ipad_retina).to_s
+  end
+
+  def profile_image_url
+    # :original is the max resolution
+    # https://rdoc.info/gems/twitter/Twitter/Profile#profile_image_uri_https-instance_method
+    profile_image_uri_https(:original).to_s
   end
 end
