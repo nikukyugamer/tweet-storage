@@ -27,6 +27,16 @@ class Tweet < ApplicationRecord
     where.not(id: removed_tweet_index_ids)
   }
 
+  scope :remove_retweet, lambda {
+    # TODO: Refactoring
+    retweet_tweet_index_ids = []
+    select do |record|
+      retweet_tweet_index_ids << record.id if record.retweet?
+    end
+
+    where.not(id: retweet_tweet_index_ids)
+  }
+
   # TODO: Refactoring
   # https://www.rubydoc.info/gems/twitter/Twitter/Tweet
   delegate :retweet?, to: :deserialize
