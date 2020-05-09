@@ -3,6 +3,8 @@ class Tweet < ApplicationRecord
   include UsefulMethods
 
   belongs_to :user
+  has_many :list_tweets
+  has_many :lists, through: :list_tweets
 
   scope :order_by_id_number_desc, -> { order(id_number: :desc) }
   scope :order_by_id_number_asc, -> { order(id_number: :asc) }

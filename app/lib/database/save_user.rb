@@ -1,4 +1,25 @@
 module Database
   class SaveUser
+    def self.create(user)
+      user = User.new(
+        id_number: user.id,
+        handle: user.name,
+        screen_name: user.screen_name,
+        serialized_object: user.to_json
+      )
+
+      user.save
+    end
+
+    def self.update(user_id_number)
+      user = User.find_by(id_number: user_id_number)
+
+      user.update(
+        id_number: user.id,
+        handle: user.name,
+        screen_name: user.screen_name,
+        serialized_object: user.to_json
+      )
+    end
   end
 end
