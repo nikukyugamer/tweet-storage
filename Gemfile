@@ -5,6 +5,7 @@ ruby '2.7.1'
 
 gem 'aws-sdk-s3'
 gem 'bootsnap', require: false
+gem 'dotenv-rails'
 gem 'google_drive'
 gem 'jbuilder'
 gem 'pg'
@@ -18,7 +19,6 @@ gem 'webpacker'
 
 group :development, :test do
   gem 'byebug'
-  gem 'dotenv-rails'
   gem 'factory_bot_rails'
   gem 'rspec-rails'
   gem 'rspec_junit_formatter'
