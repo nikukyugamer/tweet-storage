@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_09_103534) do
-
+ActiveRecord::Schema.define(version: 2020_05_09_111938) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,7 +46,6 @@ ActiveRecord::Schema.define(version: 2020_05_09_103534) do
     t.json "list_serialized_object"
     t.string "search_word"
     t.index ["id_number"], name: "index_tweets_on_id_number"
-    t.index ["list_id_number"], name: "index_tweets_on_list_id_number"
     t.index ["search_word"], name: "index_tweets_on_search_word"
     t.index ["type"], name: "index_tweets_on_type"
   end
@@ -63,5 +61,4 @@ ActiveRecord::Schema.define(version: 2020_05_09_103534) do
     t.index ["id_number"], name: "index_users_on_id_number"
     t.index ["screen_name"], name: "index_users_on_screen_name"
   end
-
 end

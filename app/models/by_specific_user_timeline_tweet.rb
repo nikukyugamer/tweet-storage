@@ -1,2 +1,0 @@
-class BySpecificUserTimelineTweet < Tweet
-end
