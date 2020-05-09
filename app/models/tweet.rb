@@ -112,7 +112,7 @@ class Tweet < ApplicationRecord
 
   # "2020/05/05（火） 20:54:45"
   def tweeted_at_in_japanese
-    japanese_date_expression(tweeted_at)
+    japanese_date_expression(tweeted_at.in_time_zone('Asia/Tokyo'))
   end
 
   def array_of_media_urls
@@ -132,6 +132,7 @@ class Tweet < ApplicationRecord
 
   # TODO: Change to be valid when the columns are removed
   # delegate :full_text, to: :deserialize
+  #
   # def id_number
   #   deserialize.id
   # end
