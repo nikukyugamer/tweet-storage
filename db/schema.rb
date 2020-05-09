@@ -11,7 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2020_05_09_111938) do
-
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +41,9 @@ ActiveRecord::Schema.define(version: 2020_05_09_111938) do
     t.string "type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "list_id_number"
+    t.string "list_name"
+    t.json "list_serialized_object"
     t.string "search_word"
     t.index ["id_number"], name: "index_tweets_on_id_number"
     t.index ["search_word"], name: "index_tweets_on_search_word"
@@ -59,5 +61,4 @@ ActiveRecord::Schema.define(version: 2020_05_09_111938) do
     t.index ["id_number"], name: "index_users_on_id_number"
     t.index ["screen_name"], name: "index_users_on_screen_name"
   end
-
 end

@@ -21,7 +21,7 @@ Style/TrailingCommaInArrayLiteral:
   EnforcedStyleForMultiline: comma
 
 Metrics/BlockLength:
-  Max: 52
+  Max: 100
 
 Metrics/ClassLength:
   Max: 500
