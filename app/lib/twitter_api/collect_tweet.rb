@@ -18,7 +18,7 @@ module TwitterApi
       def all_by_search(search_query, options = { result: 'recent', count: 100, tweet_mode: 'extended', since_id: 0, max_id: 9_999_999_999_999_999_999 })
         # TODO: Are '100' and '30' appropriate?
         max_loop_number   = 100
-        interval_seconds  = 30
+        interval_seconds  = ENV['INTERVAL_SECONDS_OF_GETTING_TWEET'] || 30
         result_tweets     = []
 
         max_loop_number.times do |i|
