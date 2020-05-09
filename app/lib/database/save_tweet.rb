@@ -1,9 +1,8 @@
-module TwitterApi
-  class SaveTweetToDb
-    extend TwitterClient
+module Database
+  class SaveTweet
 
     # TODO: Refactoring (Not good for STI)
-    def self.execute_by_search_word_tweet(search_query, *tweets)
+    def self.by_search_word_tweet(search_query, *tweets)
       tweets.flatten!
 
       # TODO: Should be a transaction (a bulk INSERT)
