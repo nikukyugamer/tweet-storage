@@ -1,129 +1,134 @@
 module Spreadsheet
-  # TODO: Refactoring
   class Gensosenkyo2020
-    class << self
-      def save_to_worksheet(tweets, sheet_object_key, worksheet_title:)
-        # Initialize
-        # worksheet[row, column] (The start number is not '0' but '1')
-        current_row = 2
-        worksheet = worksheet(sheet_object_key, worksheet_title: worksheet_title)
+    def initialize(sheet_object_key:, worksheet_title:)
+      @worksheet = worksheet(
+        sheet_object_key: sheet_object_key,
+        worksheet_title: worksheet_title
+      )
+      @cells = @worksheet.rows
+    end
 
-        tweets.each do |tweet|
-          current_column = 1
-          write_to_worksheet(worksheet, tweet, current_row, current_column)
+    def save_to_worksheet(tweets, start_row_number_on_spreadsheet:)
+      current_row_number_on_spreadsheet = start_row_number_on_spreadsheet
 
-          current_row += 1
+      tweets.each do |tweet|
+        start_column_number_on_spreadsheet = 1
+
+        set_data_to_worksheet(
+          tweet,
+          target_row_number_on_spreadsheet: current_row_number_on_spreadsheet,
+          start_column_number_on_spreadsheet: start_column_number_on_spreadsheet
+        )
+
+        current_row_number_on_spreadsheet += 1
+      end
+
+      @worksheet.save
+    end
+
+    def set_data_to_worksheet(tweet, target_row_number_on_spreadsheet:, start_column_number_on_spreadsheet:)
+      # 「行」と「列」の数値は、スプレッドシート上の数値となる（1 から始まる数値）
+      gensosenkyo_2020_column_names.size.times do |i|
+        case start_column_number_on_spreadsheet + i
+        when 1
+          @worksheet.update_cells(target_row_number_on_spreadsheet, start_column_number_on_spreadsheet + i, [[tweet.id_number]])
+        when 2
+          @worksheet.update_cells(target_row_number_on_spreadsheet, start_column_number_on_spreadsheet + i, [[tweet.user.handle]])
+        when 3
+          @worksheet.update_cells(target_row_number_on_spreadsheet, start_column_number_on_spreadsheet + i, [["@#{tweet.user.screen_name}"]])
+        when 4
+          @worksheet.update_cells(target_row_number_on_spreadsheet, start_column_number_on_spreadsheet + i, [[tweet.full_text]])
+        when 5
+          @worksheet.update_cells(target_row_number_on_spreadsheet, start_column_number_on_spreadsheet + i, [[tweet.retweet?]])
+        when 6
+          @worksheet.update_cells(target_row_number_on_spreadsheet, start_column_number_on_spreadsheet + i, [[tweet.url]])
+        when 7
+          @worksheet.update_cells(target_row_number_on_spreadsheet, start_column_number_on_spreadsheet + i, [[tweet.media?]])
+        when 8
+          # TODO: Refactoring
+          # tweet_public? (or protected, deleted...)
+          @worksheet.update_cells(target_row_number_on_spreadsheet, start_column_number_on_spreadsheet + i, [['true']])
+        when 9
+          @worksheet.update_cells(target_row_number_on_spreadsheet, start_column_number_on_spreadsheet + i, [[tweet.tweeted_at_in_japanese]])
         end
+      end
+    end
 
-        worksheet.save
+    def last_valid_row_number_on_spreadsheet
+      last_valid_row_number_on_spreadsheet = 1
+      scanned_max_number_of_row = 10_000_000
+
+      scanned_max_number_of_row.times do |number_of_row|
+        loop_end_flag = @cells[number_of_row].present? ? false : true
+        break if loop_end_flag
+
+        last_valid_row_number_on_spreadsheet = number_of_row + 1
       end
 
-      # TODO: Refactoring
-      def write_to_worksheet(worksheet, tweet, current_row, current_column)
-        # tweet_id
-        worksheet[current_row, current_column] = tweet.id_number
-        current_column += 1
+      last_valid_row_number_on_spreadsheet
+    end
 
-        # user_name
-        worksheet[current_row, current_column] = tweet.user.handle
-        current_column += 1
+    def max_tweet_id_number
+      tweet_id_numbers = @cells.map {|cell| cell[0].to_i if cell[0].try(:to_i) }
+      tweet_id_numbers.max
+    end
 
-        # user_screen_name
-        worksheet[current_row, current_column] = "@#{tweet.user.screen_name}"
-        current_column += 1
+    def purge_data
+      start_row_number_on_spreadsheet = 2
 
-        # tweet_full_text
-        worksheet[current_row, current_column] = tweet.full_text
-        current_column += 1
-
-        # tweet_retweet?
-        worksheet[current_row, current_column] = tweet.retweet?
-        current_column += 1
-
-        # tweet_url
-        worksheet[current_row, current_column] = tweet.url
-        current_column += 1
-
-        # tweet_media_exists?
-        worksheet[current_row, current_column] = tweet.media?
-        current_column += 1
-
-        # TODO: Refactoring
-        # tweet_public?
-        worksheet[current_row, current_column] = 'true'
-        current_column += 1
-
-        # tweeted_at
-        worksheet[current_row, current_column] = tweet.tweeted_at_in_japanese
-      end
-
-      # TODO: Does it take a lot of time?
-      def last_valid_row_number(sheet_object_key, worksheet_title:)
-        worksheet = worksheet(sheet_object_key, worksheet_title: worksheet_title)
-        scanned_max_number_of_column = gensosenkyo_2020_column_names.size
-        last_valid_row_number = 1
-
-        # TODO: Refactoring
-        scanned_max_number_of_row = 10_000_000
-
-        scanned_max_number_of_row.times do |number_of_row|
-          loop_end_flag = true
-
-          scanned_max_number_of_column.times do |number_of_column|
-            if worksheet[(number_of_row + 1), (number_of_column + 1)].present?
-              loop_end_flag = false
-              break
-            end
-          end
-
-          last_valid_row_number = (number_of_row + 1) - 1
-          break if loop_end_flag
+      # ヘッダ行があるため 1 をマイナスしている
+      (last_valid_row_number_on_spreadsheet - 1).times do |row_pointer|
+        gensosenkyo_2020_column_names.size.times do |column_pointer|
+          # 「行」と「列」の数値は、スプレッドシート上の数値となる（1 から始まる数値）
+          @worksheet.update_cells(
+            start_row_number_on_spreadsheet + row_pointer,
+            column_pointer + 1,
+            [
+              [''],
+            ]
+          )
         end
-
-        last_valid_row_number
       end
 
-      # TODO: Refactoring (exclude)
-      def session
-        GoogleDrive::Session.from_config(Rails.root.join('config/google_api_config.json').to_s)
-      end
+      @worksheet.save
+    end
 
-      # TODO: Refactoring (exclude)
-      def sheet_object(sheet_object_key)
-        session.spreadsheet_by_key(sheet_object_key)
-      end
+    def session
+      GoogleDrive::Session.from_config(Rails.root.join('config/google_api_config.json').to_s)
+    end
 
-      # TODO: Refactoring (exclude)
-      def worksheet(sheet_object_key, worksheet_title:)
-        sheet_object(sheet_object_key).worksheet_by_title(worksheet_title)
-      end
+    def sheet_object(sheet_object_key:)
+      session.spreadsheet_by_key(sheet_object_key)
+    end
 
-      # TODO: Refactoring
-      def gensosenkyo_2020_sheet_names
-        [
-          '#幻水総選挙2020',
-          '#幻水総選挙運動',
-          '#幻水推し台詞',
-          '#幻水総選挙2020_主催より',
-          '#ラジオ目安箱2020おかわり',
-          '#ラジオ目安箱2020',
-        ]
-      end
+    def worksheet(sheet_object_key:, worksheet_title:)
+      sheet_object(sheet_object_key: sheet_object_key).worksheet_by_title(worksheet_title)
+    end
 
-      # TODO: Refactoring
-      def gensosenkyo_2020_column_names
-        [
-          'tweet_id',
-          'user_name',
-          'user_screen_name',
-          'tweet_full_text',
-          'tweet_retweet?',
-          'tweet_url',
-          'tweet_media_exists?',
-          'tweet_public?',
-          'tweeted_at',
-        ]
-      end
+    def gensosenkyo_2020_sheet_names
+      [
+        '#幻水総選挙2020',
+        '#幻水総選挙運動',
+        '#幻水推し台詞',
+        '#幻水総選挙2020_主催より',
+        '#ラジオ目安箱2020おかわり',
+        '#ラジオ目安箱2020',
+      ]
+    end
+
+    # cf. @worksheet.num_cols, @worksheet.num_rows
+    def gensosenkyo_2020_column_names
+      [
+        'tweet_id',
+        'user_name',
+        'user_screen_name',
+        'tweet_full_text',
+        'tweet_retweet?',
+        'tweet_url',
+        'tweet_media_exists?',
+        'tweet_public?',
+        'tweeted_at',
+      ]
     end
   end
 end
