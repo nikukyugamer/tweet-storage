@@ -46,6 +46,32 @@
 
 # Commands
 
+## General
+
+### Get user object
+
+```sh
+$ bundle exec rails runner "pp ::TwitterApi::CollectUser.specific_user('genso573')"
+```
+
+### Get tweet object
+
+```sh
+$ bundle exec rails runner "pp ::TwitterApi::CollectTweet.specific_tweets_by_tweet_id_numbers(303393978697535489)"
+```
+
+### Get tweets object by specific user
+
+```sh
+$ bundle exec rails runner "pp ::TwitterApi::CollectTweet.specific_tweets_by_user(::TwitterApi::CollectUser.specific_user('genso573'))"
+```
+
+### Get tweets object by specific list
+
+```sh
+$ bundle exec rails runner "pp ::TwitterApi::CollectTweet.specific_tweets_by_list(25598282)"
+```
+
 ## Gensosenkyo2020
 
 ### Get records from database
@@ -93,4 +119,17 @@ $ bundle exec rails runner "['#幻水総選挙2020', '#幻水総選挙運動', '
 
 ```sh
 $ bundle exec rails runner "['#幻水総選挙2020', '#幻水総選挙運動', '#幻水推し台詞', '#幻水総選挙2020_主催より', '#ラジオ目安箱2020おかわり', '#ラジオ目安箱2020'].each {|q| ::Operations::Gensosenkyo2020::Batch.initial_write_to_database_and_spreadsheet_by_search(q, sheet_object_key: ENV['GENSOSENKYO_2020_DEVELOPMENT_SPREADSHEET_ID'], worksheet_title: q) }"
+```
+
+### Spreadsheet
+- max_tweet_id_number
+
+```sh
+$ bundle exec rails runner "pp ::Spreadsheet::Gensosenkyo2020.new(sheet_object_key: ENV['GENSOSENKYO_2020_DEVELOPMENT_SPREADSHEET_ID'], worksheet_title: '#幻水総選挙2020').max_tweet_id_number; 0;"
+```
+
+- last_valid_row_number_on_spreadsheet
+
+```sh
+$ bundle exec rails runner "pp ::Spreadsheet::Gensosenkyo2020.new(sheet_object_key: ENV['GENSOSENKYO_2020_DEVELOPMENT_SPREADSHEET_ID'], worksheet_title: '#幻水総選挙2020').last_valid_row_number_on_spreadsheet; 0;"
 ```
