@@ -30,6 +30,44 @@ module Operations
           tweets = TwitterApi::CollectTweet.by_search(search_query)
           ::Database::SaveTweet.by_search_word_tweet(search_query, tweets)
         end
+
+        # 初期化用
+        def write_by_list(list_identify, options = { count: 200, since_id: 1, max_id: 9_000_000_000_000_000_000 })
+          target_list_from_api = TwitterApi::CollectList.specific_list(list_identify)
+          tweets = TwitterApi::CollectTweet.all_by_specific_list(list_identify, options)
+
+          ::Database::SaveTweet.by_list_tweet(target_list_from_api, tweets)
+        end
+
+        # 2回目以降用
+        def write_next_tweet_by_list(list_identify, options = { count: 200, since_id: 1, max_id: 9_000_000_000_000_000_000 })
+          target_list_from_api      = TwitterApi::CollectList.specific_list(list_identify)
+          target_list_from_db       = List.find_by(id_number: target_list_from_api.id)
+          max_id_number_tweet_in_db = target_list_from_db.tweets.max_id_number
+          options = options.merge({ since_id: max_id_number_tweet_in_db })
+
+          # データベースに記録する情報は最新の情報にしたいので、API から取得した情報を用いる
+          tweets = TwitterApi::CollectTweet.all_by_specific_list(list_identify, options)
+          ::Database::SaveTweet.by_list_tweet(target_list_from_api, tweets)
+        end
+
+        # 初期化用
+        def write_by_specific_user_tweet(user_identify, options = { count: 200, since_id: 1, max_id: 9_000_000_000_000_000_000 })
+          tweets = TwitterApi::CollectTweet.all_by_specific_user(user_identify, options)
+          ::Database::SaveTweet.by_specific_user_tweet(tweets)
+        end
+
+        # 2回目以降用
+        def write_next_tweet_by_specific_user_tweet(user_identify, options = { count: 200, since_id: 1, max_id: 9_000_000_000_000_000_000 })
+          target_user_from_api      = TwitterApi::CollectUser.specific_user(user_identify)
+          target_tweets_from_db     = Tweet.by_specific_user(target_user_from_api.id)
+          max_id_number_tweet_in_db = target_tweets_from_db.max_id_number
+          options = options.merge({ since_id: max_id_number_tweet_in_db })
+
+          # データベースに記録する情報は最新の情報にしたいので、API から取得した情報を用いる
+          tweets = TwitterApi::CollectTweet.all_by_specific_user(user_identify, options)
+          ::Database::SaveTweet.by_specific_user_tweet(tweets)
+        end
       end
     end
   end

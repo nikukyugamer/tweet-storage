@@ -2,7 +2,7 @@ class User < ApplicationRecord
   extend TwitterClient
   extend UsefulMethods
 
-  has_many :tweets
+  has_one :tweet
 
   # TODO: Refactoring
   # https://rdoc.info/gems/twitter/Twitter/User
@@ -59,6 +59,10 @@ class User < ApplicationRecord
 
   def deserialize
     Twitter::User.new(JSON.parse(serialized_object, symbolize_names: true))
+  end
+
+  def self.latest
+    order(id_number: :desc).first
   end
 
   def url
