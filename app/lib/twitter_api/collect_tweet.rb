@@ -53,6 +53,13 @@ module TwitterApi
         tweet_array.map(&:id).min
       end
 
+      # こちらのメソッドでないと例外が返ってこない
+      # ただし、全てのツイートにこれを実行すると、一つずつのツイートに対して 1 API を消費することになる
+      def specific_tweets_by_tweet_id_number(tweet_id_number)
+        client.status(tweet_id_number)
+      end
+
+      # こちらのメソッドでは、取得できなかったツイートは戻り値の中に入ってこないだけになる（例外は発生しない）
       def specific_tweets_by_tweet_id_numbers(*tweet_id_numbers)
         client.statuses(tweet_id_numbers)
       end
