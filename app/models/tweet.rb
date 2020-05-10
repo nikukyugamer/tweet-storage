@@ -3,12 +3,11 @@ class Tweet < ApplicationRecord
   include UsefulMethods
 
   belongs_to :user
-  has_many :list_tweets
-  has_many :lists, through: :list_tweets
+
+  validates :user, presence: true
 
   scope :order_by_id_number_desc, -> { order(id_number: :desc) }
   scope :order_by_id_number_asc, -> { order(id_number: :asc) }
-  scope :latest, -> { order(id_number: :desc).first }
 
   # TODO: Refactoring
   # Pick up the latest id_number record
@@ -44,6 +43,16 @@ class Tweet < ApplicationRecord
   scope :remove_tweet_by_gensosenkyo, -> { select {|tweet| tweet.user.id_number != 1471724029 } }
 
   # TODO: Refactoring
+  scope :by_specific_user, lambda { |user_identify|
+    user_from_api = TwitterApi::CollectUser.specific_user(user_identify)
+    users_from_db = User.where(id_number: user_from_api.id)
+    specific_user_tweets = users_from_db.map(&:tweet)
+    specific_user_tweet_id_numbers = specific_user_tweets.map(&:id_number)
+
+    Tweet.where(id_number: specific_user_tweet_id_numbers)
+  }
+
+  # TODO: Refactoring
   # https://www.rubydoc.info/gems/twitter/Twitter/Tweet
   delegate :retweet?, to: :deserialize
   delegate :uri, to: :deserialize
@@ -70,6 +79,10 @@ class Tweet < ApplicationRecord
 
   def deserialize
     Twitter::Tweet.new(JSON.parse(serialized_object, symbolize_names: true))
+  end
+
+  def self.latest
+    order(id_number: :desc).first
   end
 
   def url

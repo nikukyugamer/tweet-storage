@@ -34,7 +34,7 @@ module TwitterApi
         result_tweets.flatten
       end
 
-      # TODO: Refactoring
+      # TODO: Refactoring (options arguments)
       def from_specific_tweet_id_number_to_latest_with_loop_by_search(search_query, specific_tweet_id_number, options = { result: 'recent', count: 100, tweet_mode: 'extended', since_id: 1, max_id: 9_000_000_000_000_000_000 })
         options[:since_id] = specific_tweet_id_number
         all_by_search(search_query, options)
@@ -53,6 +53,13 @@ module TwitterApi
         tweet_array.map(&:id).min
       end
 
+      # こちらのメソッドでないと例外が返ってこない
+      # ただし、全てのツイートにこれを実行すると、一つずつのツイートに対して 1 API を消費することになる
+      def specific_tweets_by_tweet_id_number(tweet_id_number)
+        client.status(tweet_id_number)
+      end
+
+      # こちらのメソッドでは、取得できなかったツイートは戻り値の中に入ってこないだけになる（例外は発生しない）
       def specific_tweets_by_tweet_id_numbers(*tweet_id_numbers)
         client.statuses(tweet_id_numbers)
       end
