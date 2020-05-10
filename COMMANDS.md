@@ -1,5 +1,13 @@
 # Commands
 
+## Spreadsheet
+
+### purge
+
+```sh
+$ bundle exec rails runner "Spreadsheet::Gensosenkyo2020.new(sheet_object_key: ENV['GENSOSENKYO_2020_PRODUCTION_SPREADSHEET_ID'], worksheet_title: '#幻水推し台詞').purge_data;"
+```
+
 ## By cron
 
 ### By search
