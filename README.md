@@ -52,6 +52,12 @@
   - https://twitter.com/twitter/status/303393978697535489
     - Redirect to https://twitter.com/genso573/status/303393978697535489
 
+## max_id & since_id
+- `max_id`
+  - 「〜以下」
+- `since_id`
+  - 「〜より大きい」
+
 # Commands
 
 ## General

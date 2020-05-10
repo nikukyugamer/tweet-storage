@@ -34,7 +34,7 @@ module TwitterApi
         result_tweets.flatten
       end
 
-      # TODO: Refactoring
+      # TODO: Refactoring (options arguments)
       def from_specific_tweet_id_number_to_latest_with_loop_by_search(search_query, specific_tweet_id_number, options = { result: 'recent', count: 100, tweet_mode: 'extended', since_id: 1, max_id: 9_000_000_000_000_000_000 })
         options[:since_id] = specific_tweet_id_number
         all_by_search(search_query, options)
