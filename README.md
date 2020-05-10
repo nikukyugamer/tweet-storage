@@ -54,10 +54,16 @@
 $ bundle exec rails runner "pp ::TwitterApi::CollectUser.specific_user('genso573')"
 ```
 
-### Get tweet object
+### Get tweet object (Single)
 
 ```sh
-$ bundle exec rails runner "pp ::TwitterApi::CollectTweet.specific_tweets_by_tweet_id_numbers(303393978697535489)"
+$ bundle exec rails runner "pp ::TwitterApi::CollectTweet.specific_tweets_by_tweet_id_number(303393978697535489)"
+```
+
+### Get tweet object (Multiple)
+
+```sh
+$ bundle exec rails runner "pp ::TwitterApi::CollectTweet.specific_tweets_by_tweet_id_numbers([303393978697535489, 1256884941989703682])"
 ```
 
 ### Get tweets object by specific user
@@ -69,7 +75,13 @@ $ bundle exec rails runner "pp ::TwitterApi::CollectTweet.specific_tweets_by_use
 ### Get tweets object by specific list
 
 ```sh
-$ bundle exec rails runner "pp ::TwitterApi::CollectTweet.specific_tweets_by_list(25598282)"
+$ bundle exec rails runner "pp ::TwitterApi::CollectTweet.specific_tweets_by_list(719421755110993920)"
+```
+
+### Get list object
+
+```sh
+$ bundle exec rails runner "pp ::TwitterApi::CollectList.specific_list(55570485)"
 ```
 
 ## Gensosenkyo2020
