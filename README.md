@@ -44,6 +44,14 @@
 | flight :(                         | containing “flight” and with a negative attitude.                                             |
 | traffic ?                         | containing “traffic” and asking a question.                                                   |
 
+# Knowledge
+
+## Only tweet_id_number, you can access the tweet page
+- Specify screen_name to `twitter`
+- For example
+  - https://twitter.com/twitter/status/303393978697535489
+    - Redirect to https://twitter.com/genso573/status/303393978697535489
+
 # Commands
 
 ## General
