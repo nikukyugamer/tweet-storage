@@ -2,6 +2,8 @@ class Tweet < ApplicationRecord
   extend TwitterClient
   include UsefulMethods
 
+  has_many :list_tweets
+  has_many :lists, through: :list_tweets
   belongs_to :user
 
   validates :user, presence: true
