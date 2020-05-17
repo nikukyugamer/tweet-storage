@@ -68,6 +68,13 @@ module Operations
           tweets = TwitterApi::CollectTweet.all_by_specific_user(user_identify, options)
           ::Database::SaveTweet.by_specific_user_tweet(tweets)
         end
+
+        # 特定のユーザ（単数）のレコードを追加する
+        # TODO: 元のメソッドと併せて、options の追加
+        def write_specific_user_record(user_identify)
+          specific_user = TwitterApi::CollectUser.specific_user(user_identify)
+          Database::SaveUser.create(specific_user)
+        end
       end
     end
   end
