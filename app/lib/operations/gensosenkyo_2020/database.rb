@@ -73,7 +73,7 @@ module Operations
         # TODO: 元のメソッドと併せて、options の追加
         def write_specific_user_record(user_identify)
           specific_user = TwitterApi::CollectUser.specific_user(user_identify)
-          Database::SaveUser.create(specific_user)
+          ::Database::SaveUser.create(specific_user)
         end
       end
     end
