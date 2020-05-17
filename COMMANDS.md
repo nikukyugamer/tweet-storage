@@ -38,12 +38,12 @@ $ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "Opera
 
 ```sh
 # Initialize
-$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "Operations::Gensosenkyo2020::Database.initial_write_by_search(search_query)
+$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "Operations::Gensosenkyo2020::Database.initial_write_by_search(search_query)"
 ```
 
 ```sh
 # Continuous
-$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "Operations::Gensosenkyo2020::Database.write_by_next_tweet_id_number_search(search_query)
+$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "Operations::Gensosenkyo2020::Database.write_by_next_tweet_id_number_search(search_query)"
 ```
 
 ### By specific user
@@ -51,12 +51,12 @@ $ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "Opera
 
 ```sh
 # Initialize
-$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "Operations::Gensosenkyo2020::Database.write_by_specific_user_tweet(user_identify)
+$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "Operations::Gensosenkyo2020::Database.write_by_specific_user_tweet(user_identify)"
 ```
 
 ```sh
 # Continuous
-$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "Operations::Gensosenkyo2020::Database.write_next_tweet_by_specific_user_tweet(user_identify)
+$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "Operations::Gensosenkyo2020::Database.write_next_tweet_by_specific_user_tweet(user_identify)"
 ```
 
 ### By specific list
@@ -64,12 +64,12 @@ $ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "Opera
 
 ```sh
 # Initialize
-$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "Operations::Gensosenkyo2020::Database.write_by_list(list_identify)
+$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "Operations::Gensosenkyo2020::Database.write_by_list(list_identify)"
 ```
 
 ```sh
 # Continuous
-$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "Operations::Gensosenkyo2020::Database.write_next_tweet_by_list(list_identify)
+$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "Operations::Gensosenkyo2020::Database.write_next_tweet_by_list(list_identify)"
 ```
 
 ## General
