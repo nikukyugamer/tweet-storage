@@ -3,8 +3,8 @@ module Database
     def self.create(user)
       user = User.new(
         id_number: user.id,
-        handle: user.name,
-        screen_name: user.screen_name,
+        handle: CGI.unescapeHTML(user.name),
+        screen_name: CGI.unescapeHTML(user.screen_name),
         serialized_object: user.to_json
       )
 
@@ -16,8 +16,8 @@ module Database
 
       user.update(
         id_number: user.id,
-        handle: user.name,
-        screen_name: user.screen_name,
+        handle: CGI.unescapeHTML(user.name),
+        screen_name: CGI.unescapeHTML(user.screen_name),
         serialized_object: user.to_json
       )
     end

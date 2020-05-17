@@ -7,7 +7,6 @@ class User < ApplicationRecord
   # TODO: Refactoring
   # https://rdoc.info/gems/twitter/Twitter/User
   delegate :connections, to: :deserialize
-  delegate :description, to: :deserialize
   delegate :email, to: :deserialize
   delegate :favourites_count, to: :deserialize
   delegate :followers_count, to: :deserialize
@@ -15,7 +14,6 @@ class User < ApplicationRecord
   delegate :lang, to: :deserialize
   delegate :listed_count, to: :deserialize
   delegate :location, to: :deserialize
-  delegate :name, to: :deserialize
   delegate :profile_background_color, to: :deserialize
   delegate :profile_link_color, to: :deserialize
   delegate :profile_sidebar_border_color, to: :deserialize
@@ -24,10 +22,8 @@ class User < ApplicationRecord
   delegate :statuses_count, to: :deserialize
   delegate :time_zone, to: :deserialize
   delegate :utc_offset, to: :deserialize
-  delegate :screen_name, to: :deserialize
   delegate :attrs, to: :deserialize
   delegate :uri, to: :deserialize
-  delegate :website, to: :deserialize
   delegate :website?, to: :deserialize
   delegate :profile_banner_uri?, to: :deserialize
   delegate :profile_banner_uri_https, to: :deserialize
@@ -79,5 +75,21 @@ class User < ApplicationRecord
     # :original is the max resolution
     # https://rdoc.info/gems/twitter/Twitter/Profile#profile_image_uri_https-instance_method
     profile_image_uri_https(:original).to_s
+  end
+
+  def screen_name
+    CGI.unescapeHTML(deserialize.screen_name)
+  end
+
+  def description
+    CGI.unescapeHTML(deserialize.description)
+  end
+
+  def name
+    CGI.unescapeHTML(deserialize.name)
+  end
+
+  def website
+    CGI.unescapeHTML(deserialize.website)
   end
 end
