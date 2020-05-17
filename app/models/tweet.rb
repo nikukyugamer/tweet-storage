@@ -2,6 +2,8 @@ class Tweet < ApplicationRecord
   extend TwitterClient
   include UsefulMethods
 
+  has_many :list_tweets
+  has_many :lists, through: :list_tweets
   belongs_to :user
 
   validates :user, presence: true
@@ -145,10 +147,8 @@ class Tweet < ApplicationRecord
     order(id_number: :asc).first.id_number
   end
 
-  # TODO: Change to be valid when the columns are removed
-  # delegate :full_text, to: :deserialize
-  #
-  # def id_number
-  #   deserialize.id
-  # end
+  # TODO: If column name
+  def full_text
+    CGI.unescapeHTML(deserialize.full_text)
+  end
 end
