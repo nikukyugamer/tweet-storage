@@ -74,40 +74,40 @@ $ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "Opera
 
 ## General
 
-### Get user object
+### Get user object by Twitter API
 
 ```sh
-$ /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::TwitterApi::CollectUser.specific_user('genso573')"
+$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::TwitterApi::CollectUser.specific_user('genso573')"
 ```
 
-### Get tweet object (Single)
+### Get tweet object (Single) by Twitter API
 
 ```sh
-$ /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::TwitterApi::CollectTweet.specific_tweets_by_tweet_id_number(303393978697535489)"
+$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::TwitterApi::CollectTweet.specific_tweets_by_tweet_id_number(303393978697535489)"
 ```
 
-### Get tweet object (Multiple)
+### Get tweet object (Multiple) by Twitter API
 
 ```sh
-$ /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::TwitterApi::CollectTweet.specific_tweets_by_tweet_id_numbers([303393978697535489, 1256884941989703682])"
+$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::TwitterApi::CollectTweet.specific_tweets_by_tweet_id_numbers([303393978697535489, 1256884941989703682])"
 ```
 
-### Get tweets object by specific user
+### Get tweets object by specific user by Twitter API
 
 ```sh
-$ /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::TwitterApi::CollectTweet.specific_tweets_by_user(::TwitterApi::CollectUser.specific_user('genso573'))"
+$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::TwitterApi::CollectTweet.specific_tweets_by_user(::TwitterApi::CollectUser.specific_user('genso573'))"
 ```
 
-### Get tweets object by specific list
+### Get tweets object by specific list by Twitter API
 
 ```sh
-$ /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::TwitterApi::CollectTweet.specific_tweets_by_list(719421755110993920)"
+$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::TwitterApi::CollectTweet.specific_tweets_by_list(719421755110993920)"
 ```
 
-### Get list object
+### Get list object by Twitter API
 
 ```sh
-$ /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::TwitterApi::CollectList.specific_list(55570485)"
+$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::TwitterApi::CollectList.specific_list(55570485)"
 ```
 
 ## Gensosenkyo2020
@@ -116,39 +116,39 @@ $ /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::TwitterApi::CollectLi
 - Without retweets
 
 ```sh
-$ /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::Database::ReadTweet.by_general_search('#幻水総選挙2020').size; 0;"
+$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::Database::ReadTweet.by_general_search('#幻水総選挙2020').size; 0;"
 ```
 
 - With retweets
 
 ```sh
-$ /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::Database::ReadTweet.by_with_retweet_general_search('#幻水総選挙2020').size; 0;"
+$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::Database::ReadTweet.by_with_retweet_general_search('#幻水総選挙2020').size; 0;"
 ```
 
 ### Get records from spreadsheet
 - The last valid row number on spreadsheet
 
 ```sh
-$ /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::Spreadsheet::Gensosenkyo2020.new(sheet_object_key: ENV['GENSOSENKYO_2020_DEVELOPMENT_SPREADSHEET_ID'], worksheet_title: '#幻水総選挙2020').last_valid_row_number_on_spreadsheet; 0;"
+$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::Spreadsheet::Gensosenkyo2020.new(sheet_object_key: ENV['GENSOSENKYO_2020_DEVELOPMENT_SPREADSHEET_ID'], worksheet_title: '#幻水総選挙2020').last_valid_row_number_on_spreadsheet; 0;"
 ```
 
 - The max tweet_id_number
 
 ```sh
-$ /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::Spreadsheet::Gensosenkyo2020.new(sheet_object_key: ENV['GENSOSENKYO_2020_DEVELOPMENT_SPREADSHEET_ID'], worksheet_title: '#幻水総選挙2020').max_tweet_id_number; 0;"
+$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::Spreadsheet::Gensosenkyo2020.new(sheet_object_key: ENV['GENSOSENKYO_2020_DEVELOPMENT_SPREADSHEET_ID'], worksheet_title: '#幻水総選挙2020').max_tweet_id_number; 0;"
 ```
 
 ### Get records from database and write records to spreadsheet
 #### Without retweets
 
 ```sh
-$ /home/ubuntu/.rbenv/shims/bundle exec rails runner "['#幻水総選挙2020', '#幻水総選挙運動', '#幻水推し台詞', '#幻水総選挙2020_主催より', '#ラジオ目安箱2020おかわり', '#ラジオ目安箱2020'].each {|q| ::Operations::Gensosenkyo2020::Batch.initial_write_to_spreadsheet_by_search(q, sheet_object_key: ENV['GENSOSENKYO_2020_DEVELOPMENT_SPREADSHEET_ID'], worksheet_title: q) }"
+$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "['#幻水総選挙2020', '#幻水総選挙運動', '#幻水推し台詞', '#幻水総選挙2020_主催より', '#ラジオ目安箱2020おかわり', '#ラジオ目安箱2020'].each {|q| ::Operations::Gensosenkyo2020::Batch.initial_write_to_spreadsheet_by_search(q, sheet_object_key: ENV['GENSOSENKYO_2020_DEVELOPMENT_SPREADSHEET_ID'], worksheet_title: q) }"
 ```
 
 #### With retweets
 
 ```sh
-$ /home/ubuntu/.rbenv/shims/bundle exec rails runner "['#幻水総選挙2020', '#幻水総選挙運動', '#幻水推し台詞', '#幻水総選挙2020_主催より', '#ラジオ目安箱2020おかわり', '#ラジオ目安箱2020'].each {|q| ::Operations::Gensosenkyo2020::Batch.initial_write_to_spreadsheet_with_retweets_by_search(q, sheet_object_key: ENV['GENSOSENKYO_2020_DEVELOPMENT_SPREADSHEET_ID'], worksheet_title: q) }"
+$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "['#幻水総選挙2020', '#幻水総選挙運動', '#幻水推し台詞', '#幻水総選挙2020_主催より', '#ラジオ目安箱2020おかわり', '#ラジオ目安箱2020'].each {|q| ::Operations::Gensosenkyo2020::Batch.initial_write_to_spreadsheet_with_retweets_by_search(q, sheet_object_key: ENV['GENSOSENKYO_2020_DEVELOPMENT_SPREADSHEET_ID'], worksheet_title: q) }"
 ```
 
 ### Get records from REST API, write data to database and write records to spreadsheet
@@ -156,18 +156,18 @@ $ /home/ubuntu/.rbenv/shims/bundle exec rails runner "['#幻水総選挙2020', '
 #### With retweets
 
 ```sh
-$ /home/ubuntu/.rbenv/shims/bundle exec rails runner "['#幻水総選挙2020', '#幻水総選挙運動', '#幻水推し台詞', '#幻水総選挙2020_主催より', '#ラジオ目安箱2020おかわり', '#ラジオ目安箱2020'].each {|q| ::Operations::Gensosenkyo2020::Batch.initial_write_to_database_and_spreadsheet_by_search(q, sheet_object_key: ENV['GENSOSENKYO_2020_DEVELOPMENT_SPREADSHEET_ID'], worksheet_title: q) }"
+$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "['#幻水総選挙2020', '#幻水総選挙運動', '#幻水推し台詞', '#幻水総選挙2020_主催より', '#ラジオ目安箱2020おかわり', '#ラジオ目安箱2020'].each {|q| ::Operations::Gensosenkyo2020::Batch.initial_write_to_database_and_spreadsheet_by_search(q, sheet_object_key: ENV['GENSOSENKYO_2020_DEVELOPMENT_SPREADSHEET_ID'], worksheet_title: q) }"
 ```
 
 ### Spreadsheet
 - max_tweet_id_number
 
 ```sh
-$ /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::Spreadsheet::Gensosenkyo2020.new(sheet_object_key: ENV['GENSOSENKYO_2020_DEVELOPMENT_SPREADSHEET_ID'], worksheet_title: '#幻水総選挙2020').max_tweet_id_number; 0;"
+$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::Spreadsheet::Gensosenkyo2020.new(sheet_object_key: ENV['GENSOSENKYO_2020_DEVELOPMENT_SPREADSHEET_ID'], worksheet_title: '#幻水総選挙2020').max_tweet_id_number; 0;"
 ```
 
 - last_valid_row_number_on_spreadsheet
 
 ```sh
-$ /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::Spreadsheet::Gensosenkyo2020.new(sheet_object_key: ENV['GENSOSENKYO_2020_DEVELOPMENT_SPREADSHEET_ID'], worksheet_title: '#幻水総選挙2020').last_valid_row_number_on_spreadsheet; 0;"
+$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::Spreadsheet::Gensosenkyo2020.new(sheet_object_key: ENV['GENSOSENKYO_2020_DEVELOPMENT_SPREADSHEET_ID'], worksheet_title: '#幻水総選挙2020').last_valid_row_number_on_spreadsheet; 0;"
 ```
