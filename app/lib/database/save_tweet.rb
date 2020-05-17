@@ -8,8 +8,8 @@ module Database
       tweets.each do |tweet|
         user = User.new(
           id_number: tweet.user.id,
-          handle: tweet.user.name,
-          screen_name: tweet.user.screen_name,
+          handle: CGI.unescapeHTML(tweet.user.name),
+          screen_name: CGI.unescapeHTML(tweet.user.screen_name),
           serialized_object: tweet.user.to_json
         )
 
@@ -33,8 +33,8 @@ module Database
       tweets.each do |tweet|
         user = User.new(
           id_number: tweet.user.id,
-          handle: tweet.user.name,
-          screen_name: tweet.user.screen_name,
+          handle: CGI.unescapeHTML(tweet.user.name),
+          screen_name: CGI.unescapeHTML(tweet.user.screen_name),
           serialized_object: tweet.user.to_json
         )
 
@@ -57,8 +57,8 @@ module Database
       tweets.each do |tweet|
         user = User.new(
           id_number: tweet.user.id,
-          handle: tweet.user.name,
-          screen_name: tweet.user.screen_name,
+          handle: CGI.unescapeHTML(tweet.user.name),
+          screen_name: CGI.unescapeHTML(tweet.user.screen_name),
           serialized_object: tweet.user.to_json
         )
 
@@ -82,8 +82,8 @@ module Database
       tweets.each do |tweet|
         user = User.new(
           id_number: tweet.user.id,
-          handle: tweet.user.name,
-          screen_name: tweet.user.screen_name,
+          handle: CGI.unescapeHTML(tweet.user.name),
+          screen_name: CGI.unescapeHTML(tweet.user.screen_name),
           serialized_object: tweet.user.to_json
         )
 
