@@ -89,7 +89,7 @@ $ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::
 ### Get tweet object (Single) by Twitter API
 
 ```sh
-$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::TwitterApi::CollectTweet.specific_tweets_by_tweet_id_number(303393978697535489)"
+$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::TwitterApi::CollectTweet.specific_tweet_by_tweet_id_number(303393978697535489)"
 ```
 
 ### Get tweet object (Multiple) by Twitter API
@@ -249,21 +249,43 @@ pry> ::Operations::Gensosenkyo2020::Database.write_specific_user_record('genso57
 pry> ::Operations::Gensosenkyo2020::Database.write_specific_list_record(719421755110993920)
 ```
 
+### 特定の検索条件に紐付いたツイートを Twitter API 経由で取得してデータベースに書き込む場合
+
+- 初回（取得可能上限までループする）
+
+```ruby
+pry> ::Operations::Gensosenkyo2020::Database.initial_write_by_search('ワコム タブレット')
+```
+
+- 続き（取得可能上限までループする）
+
+```ruby
+pry> ::Operations::Gensosenkyo2020::Database.write_by_next_tweet_id_number_search('ワコム タブレット')
+```
+
 ### 特定のユーザに紐付いたツイートを Twitter API 経由で取得してデータベースに書き込む場合
+
+- 初回（取得可能上限までループする）
 
 ```ruby
 pry> ::Operations::Gensosenkyo2020::Database.write_by_specific_user_tweet('genso573')
 ```
 
+- 続き（取得可能上限までループする）
+
+```ruby
+pry> ::Operations::Gensosenkyo2020::Database.write_next_tweet_by_specific_user_tweet('genso573')
+```
+
 ### 特定のリストに紐付いたツイートを Twitter API 経由で取得してデータベースに書き込む場合
 
-- 初回
+- 初回（取得可能上限までループする）
 
 ```ruby
 pry> ::Operations::Gensosenkyo2020::Database.write_by_list(719421755110993920)
 ```
 
-- 続き
+- 続き（取得可能上限までループする）
 
 ```ruby
 pry> ::Operations::Gensosenkyo2020::Database.write_next_tweet_by_list(719421755110993920)
@@ -309,4 +331,10 @@ media_urls.each do |media_url|
   command = "wget #{media_url}"
   `#{command}`
 end
+```
+
+# Twitter の認証情報をコマンドから直接しているする
+
+```sh
+$ TWITTER_CONSUMER_KEY=abcde TWITTER_CONSUMER_SECRET=apple TWITTER_ACCESS_TOKEN=123456-melon TWITTER_ACCESS_SECRET=pine bundle exec rails runner "puts 'Hello, World!';"
 ```
