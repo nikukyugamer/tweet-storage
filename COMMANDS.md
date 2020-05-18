@@ -333,7 +333,7 @@ media_urls.each do |media_url|
 end
 ```
 
-# Twitter の認証情報をコマンドから直接しているする
+# Twitter の認証情報をコマンドから直接指定する
 
 ```sh
 $ TWITTER_CONSUMER_KEY=abcde TWITTER_CONSUMER_SECRET=apple TWITTER_ACCESS_TOKEN=123456-melon TWITTER_ACCESS_SECRET=pine bundle exec rails runner "puts 'Hello, World!';"
