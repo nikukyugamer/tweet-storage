@@ -89,7 +89,7 @@ $ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::
 ### Get tweet object (Single) by Twitter API
 
 ```sh
-$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::TwitterApi::CollectTweet.specific_tweets_by_tweet_id_number(303393978697535489)"
+$ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::TwitterApi::CollectTweet.specific_tweet_by_tweet_id_number(303393978697535489)"
 ```
 
 ### Get tweet object (Multiple) by Twitter API
