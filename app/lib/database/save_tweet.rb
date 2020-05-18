@@ -74,7 +74,6 @@ module Database
 
     def self.by_list_tweet(list, *tweets)
       tweets.flatten!
-      by_specific_list_tweets = []
 
       target_list = List.new(
         id_number: list.id,
