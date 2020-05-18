@@ -2,7 +2,7 @@ class User < ApplicationRecord
   extend TwitterClient
   extend UsefulMethods
 
-  has_one :tweet
+  has_many :tweets
 
   # TODO: Refactoring
   # https://rdoc.info/gems/twitter/Twitter/User
