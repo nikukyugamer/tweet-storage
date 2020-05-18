@@ -2,8 +2,6 @@ class Tweet < ApplicationRecord
   extend TwitterClient
   include UsefulMethods
 
-  has_many :list_tweets
-  has_many :lists, through: :list_tweets
   belongs_to :user
 
   validates :user, presence: true
@@ -32,7 +30,6 @@ class Tweet < ApplicationRecord
   }
 
   scope :remove_retweet, lambda {
-    # TODO: Refactoring
     retweet_tweet_index_ids = []
     select do |record|
       retweet_tweet_index_ids << record.id if record.retweet?
@@ -41,17 +38,35 @@ class Tweet < ApplicationRecord
     where.not(id: retweet_tweet_index_ids)
   }
 
-  # TODO: Refactoring ('1471724029')
-  scope :remove_tweet_by_gensosenkyo, -> { select {|tweet| tweet.user.id_number != 1471724029 } }
+  # id_number 以外で List を指定すると一意性が保証されないので注意する
+  scope :by_specific_list_with_id_number, lambda { |list_id_number|
+    # 同一ユーザの複数レコードがヒットする
+    list_all_objects = List.where(id_number: list_id_number)
+    list_all_tweets = list_all_objects.map(&:tweets).flatten
 
-  # TODO: Refactoring
-  scope :by_specific_user, lambda { |user_identify|
-    user_from_api = TwitterApi::CollectUser.specific_user(user_identify)
-    users_from_db = User.where(id_number: user_from_api.id)
-    specific_user_tweets = users_from_db.map(&:tweet)
-    specific_user_tweet_id_numbers = specific_user_tweets.map(&:id_number)
+    list_all_tweets_id_numbers = list_all_tweets.map(&:id_number)
+    where(id_number: list_all_tweets_id_numbers)
+  }
 
-    Tweet.where(id_number: specific_user_tweet_id_numbers)
+  # id_number 以外で User を指定すると一意性が保証されないので注意する
+  scope :by_specific_user_with_id_number, lambda { |user_id_number|
+    # 同一ユーザの複数レコードがヒットする
+    user_all_objects = User.where(id_number: user_id_number)
+    user_all_tweets = user_all_objects.map(&:tweets).flatten
+
+    user_all_tweets_id_numbers = user_all_tweets.map(&:id_number)
+    where(id_number: user_all_tweets_id_numbers)
+  }
+
+  # @gensosenkyo: 1471724029
+  # id_number 以外で User を指定すると一意性が保証されないので注意する
+  scope :remove_specific_user_with_id_number, lambda { |user_id_number|
+    # 同一ユーザの複数レコードがヒットする
+    user_all_objects = User.where(id_number: user_id_number)
+    user_all_tweets = user_all_objects.map(&:tweets).flatten
+
+    user_all_tweets_id_numbers = user_all_tweets.map(&:id_number)
+    where.not(id_number: user_all_tweets_id_numbers)
   }
 
   # TODO: Refactoring
@@ -147,7 +162,6 @@ class Tweet < ApplicationRecord
     order(id_number: :asc).first.id_number
   end
 
-  # TODO: If column name
   def full_text
     CGI.unescapeHTML(deserialize.full_text)
   end

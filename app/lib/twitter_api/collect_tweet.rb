@@ -55,7 +55,7 @@ module TwitterApi
 
       # こちらのメソッドでないと例外が返ってこない
       # ただし、全てのツイートにこれを実行すると、一つずつのツイートに対して 1 API を消費することになる
-      def specific_tweets_by_tweet_id_number(tweet_id_number)
+      def specific_tweet_by_tweet_id_number(tweet_id_number)
         client.status(tweet_id_number)
       end
 

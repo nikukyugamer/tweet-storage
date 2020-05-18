@@ -1,6 +1,5 @@
 class List < ApplicationRecord
-  has_many :list_tweets
-  has_many :tweets, through: :list_tweets
+  has_many :tweets
 
   delegate :description, to: :deserialize
   delegate :full_name, to: :deserialize

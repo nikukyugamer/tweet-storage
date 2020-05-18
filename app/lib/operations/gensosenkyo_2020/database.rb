@@ -1,4 +1,4 @@
-# TODO: Refactoring (Commonization)
+# FIXME: Refactoring (Commonization)
 module Operations
   module Gensosenkyo2020
     class Database
@@ -41,12 +41,11 @@ module Operations
 
         # 2回目以降用
         def write_next_tweet_by_list(list_identify, options = { count: 200, since_id: 1, max_id: 9_000_000_000_000_000_000 })
-          target_list_from_api      = TwitterApi::CollectList.specific_list(list_identify)
-          target_list_from_db       = List.find_by(id_number: target_list_from_api.id)
-          max_id_number_tweet_in_db = target_list_from_db.tweets.max_id_number
+          # データベースに記録する情報は最新の情報にしたいので、API から取得した情報を用いる
+          target_list_from_api = TwitterApi::CollectList.specific_list(list_identify)
+          max_id_number_tweet_in_db = Tweet.by_specific_list_with_id_number(target_list_from_api.id).max_id_number
           options = options.merge({ since_id: max_id_number_tweet_in_db })
 
-          # データベースに記録する情報は最新の情報にしたいので、API から取得した情報を用いる
           tweets = TwitterApi::CollectTweet.all_by_specific_list(list_identify, options)
           ::Database::SaveTweet.by_list_tweet(target_list_from_api, tweets)
         end
@@ -74,6 +73,26 @@ module Operations
         def write_specific_user_record(user_identify)
           specific_user = TwitterApi::CollectUser.specific_user(user_identify)
           ::Database::SaveUser.create(specific_user)
+        end
+
+        # 一つだけであることに注意する
+        # 取得に失敗した場合には例外が返る
+        def write_tweet_by_specific_tweet_id_number(id_number)
+          tweet = ::TwitterApi::CollectTweet.specific_tweet_by_tweet_id_number(id_number)
+          ::Database::SaveTweet.by_specific_id_tweets(tweet)
+        end
+
+        # 複数を一度に（一回のAPI消費で）取得する
+        # 取得に失敗したツイートに対しては空が返る（例外は返らない）
+        def write_tweets_by_specific_tweet_id_numbers(*id_numbers)
+          tweets = ::TwitterApi::CollectTweet.specific_tweets_by_tweet_id_numbers(id_numbers)
+          ::Database::SaveTweet.by_specific_id_tweets(tweets)
+        end
+
+        # 特定のリストのレコードを追加する
+        def write_specific_list_record(id_number)
+          specific_list = ::TwitterApi::CollectList.specific_list(id_number)
+          ::Database::SaveList.create(specific_list)
         end
       end
     end
