@@ -55,25 +55,25 @@ module TwitterApi
 
       # こちらのメソッドでないと例外が返ってこない
       # ただし、全てのツイートにこれを実行すると、一つずつのツイートに対して 1 API を消費することになる
-      def specific_tweet_by_tweet_id_number(tweet_id_number)
-        client.status(tweet_id_number)
+      def specific_tweet_by_tweet_id_number(tweet_id_number, options = { tweet_mode: 'extended' })
+        client.status(tweet_id_number, options)
       end
 
       # こちらのメソッドでは、取得できなかったツイートは戻り値の中に入ってこないだけになる（例外は発生しない）
-      def specific_tweets_by_tweet_id_numbers(*tweet_id_numbers)
-        client.statuses(tweet_id_numbers)
+      def specific_tweets_by_tweet_id_numbers(options = { tweet_mode: 'extended' }, *tweet_id_numbers)
+        client.statuses(tweet_id_numbers, options)
       end
 
       # https://www.rubydoc.info/gems/twitter/Twitter/REST/Timelines#user_timeline-instance_method
       # user_identify: A Twitter user ID, screen name, URI, or object.
       # This method can only return up to 3,200 Tweets.
-      def specific_tweets_by_user(user_identify, options = { count: 200, since_id: 1, max_id: 9_000_000_000_000_000_000 })
+      def specific_tweets_by_user(user_identify, options = { tweet_mode: 'extended', count: 200, since_id: 1, max_id: 9_000_000_000_000_000_000 })
         client.user_timeline(user_identify, options)
       end
 
       # https://www.rubydoc.info/gems/twitter/Twitter/REST/Timelines#home_timeline-instance_method
       # Note: This method can only return up to 800 Tweets, including retweets.
-      def home_timeline_of_api_user(options = { count: 200, since_id: 1, max_id: 9_000_000_000_000_000_000 })
+      def home_timeline_of_api_user(options = { tweet_mode: 'extended', count: 200, since_id: 1, max_id: 9_000_000_000_000_000_000 })
         client.home_timeline(options)
       end
 
@@ -85,12 +85,12 @@ module TwitterApi
       # count: デフォルトで 20、max は 200
       # since_id が 0 の場合は since_id parameter is invalid. (Twitter::Error::BadRequest) が返ってくるため、since_id = 1 にする必要がある
       # max_id が 9_000_000_000_000_000_000 の場合は空の配列が返ってくるので、9_058_973_030_702_669_825 あたり以下にする必要がある
-      def specific_tweets_by_list(list_identify, options = { count: 200, since_id: 1, max_id: 9_000_000_000_000_000_000 })
+      def specific_tweets_by_list(list_identify, options = { tweet_mode: 'extended', count: 200, since_id: 1, max_id: 9_000_000_000_000_000_000 })
         client.list_timeline(list_identify, options)
       end
 
       # TODO: Refactoring
-      def all_by_specific_user(user_identify, options = { count: 200, since_id: 1, max_id: 9_000_000_000_000_000_000 })
+      def all_by_specific_user(user_identify, options = { tweet_mode: 'extended', count: 200, since_id: 1, max_id: 9_000_000_000_000_000_000 })
         # TODO: Are '100' and '30' appropriate?
         max_loop_number   = ENV['MAX_LOOP_NUMBER_BY_SPECIFIC_USER'] || 35
         interval_seconds  = ENV['INTERVAL_SECONDS_OF_GETTING_TWEET_BY_SPECIFIC_USER'] || 30
@@ -109,7 +109,7 @@ module TwitterApi
         result_tweets.flatten
       end
 
-      def all_by_home_timeline_of_api_user(options = { count: 200, since_id: 1, max_id: 9_000_000_000_000_000_000 })
+      def all_by_home_timeline_of_api_user(options = { tweet_mode: 'extended', count: 200, since_id: 1, max_id: 9_000_000_000_000_000_000 })
         # TODO: Are '100' and '30' appropriate?
         max_loop_number   = ENV['MAX_LOOP_NUMBER_BY_HOME_TIMELINE_OF_API_USER'] || 100
         interval_seconds  = ENV['INTERVAL_SECONDS_OF_GETTING_TWEET_BY_HOME_TIMELINE_OF_API_USER'] || 30
@@ -129,7 +129,7 @@ module TwitterApi
       end
 
       # TODO: Refactoring
-      def all_by_specific_list(list_identify, options = { count: 200, since_id: 1, max_id: 9_000_000_000_000_000_000 })
+      def all_by_specific_list(list_identify, options = { tweet_mode: 'extended', count: 200, since_id: 1, max_id: 9_000_000_000_000_000_000 })
         # TODO: Are '100' and '30' appropriate?
         max_loop_number   = ENV['MAX_LOOP_NUMBER_BY_SPECIFIC_LIST'] || 100
         interval_seconds  = ENV['INTERVAL_SECONDS_OF_GETTING_TWEET_BY_SPECIFIC_LIST'] || 30
