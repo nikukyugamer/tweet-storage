@@ -184,25 +184,25 @@ $ RAILS_ENV=production /home/ubuntu/.rbenv/shims/bundle exec rails runner "pp ::
 
 ## Twitter API を用いてオブジェクトを取得する場合（取得するだけ）
 
-### 特定のツイート（単数）を取得する場合
+### 特定のツイートオブジェクト（単数）を取得する場合
 
 ```ruby
 pry> ::TwitterApi::CollectTweet.specific_tweet_by_tweet_id_number(303393978697535489)
 ```
 
-### 特定のツイート（複数）を取得する場合
+### 特定のツイートオブジェクト（複数）を取得する場合
 
 ```ruby
 pry> ::TwitterApi::CollectTweet.specific_tweets_by_tweet_id_numbers([303393978697535489, 1256884941989703682])
 ```
 
-### 特定のユーザを取得する場合
+### 特定のユーザオブジェクトを取得する場合
 
 ```ruby
 pry> ::TwitterApi::CollectUser.specific_user('genso573')
 ```
 
-### 特定のリストを取得する場合
+### 特定のリストオブジェクトを取得する場合
 
 ```ruby
 pry> ::TwitterApi::CollectList.specific_list(55570485)
@@ -237,13 +237,13 @@ pry> ::Operations::Gensosenkyo2020::Database.write_tweet_by_specific_tweet_id_nu
 pry> ::Operations::Gensosenkyo2020::Database.write_tweets_by_specific_tweet_id_numbers([12345, 55555, 98765])
 ```
 
-### 特定のユーザを Twitter API 経由で取得してデータベースに書き込む場合
+### 特定のユーザオブジェクトを Twitter API 経由で取得してデータベースに書き込む場合
 
 ```ruby
 pry> ::Operations::Gensosenkyo2020::Database.write_specific_user_record('genso573')
 ```
 
-### 特定のリストを Twitter API 経由で取得してデータベースに書き込む場合
+### 特定のリストオブジェクトを Twitter API 経由で取得してデータベースに書き込む場合
 
 ```ruby
 pry> ::Operations::Gensosenkyo2020::Database.write_specific_list_record(719421755110993920)
@@ -252,6 +252,7 @@ pry> ::Operations::Gensosenkyo2020::Database.write_specific_list_record(71942175
 ### 特定の検索条件に紐付いたツイートを Twitter API 経由で取得してデータベースに書き込む場合
 
 - 初回（取得可能上限までループする）
+  - フルで取得する場合（ツイート上限数無限、期間が直近約1週間）は、約60分かかる
 
 ```ruby
 pry> ::Operations::Gensosenkyo2020::Database.initial_write_by_search('ワコム タブレット')
@@ -266,6 +267,7 @@ pry> ::Operations::Gensosenkyo2020::Database.write_by_next_tweet_id_number_searc
 ### 特定のユーザに紐付いたツイートを Twitter API 経由で取得してデータベースに書き込む場合
 
 - 初回（取得可能上限までループする）
+  - フルで取得する場合（約3,200ツイート）は、約13分かかる
 
 ```ruby
 pry> ::Operations::Gensosenkyo2020::Database.write_by_specific_user_tweet('genso573')
