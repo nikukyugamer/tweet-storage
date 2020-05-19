@@ -32,7 +32,7 @@ module Operations
         end
 
         # 初期化用
-        def write_by_list(list_identify, options = { count: 200, since_id: 1, max_id: 9_000_000_000_000_000_000 })
+        def write_by_list(list_identify, options = { tweet_mode: 'extended', count: 200, since_id: 1, max_id: 9_000_000_000_000_000_000 })
           target_list_from_api = TwitterApi::CollectList.specific_list(list_identify)
           tweets = TwitterApi::CollectTweet.all_by_specific_list(list_identify, options)
 
@@ -40,7 +40,7 @@ module Operations
         end
 
         # 2回目以降用
-        def write_next_tweet_by_list(list_identify, options = { count: 200, since_id: 1, max_id: 9_000_000_000_000_000_000 })
+        def write_next_tweet_by_list(list_identify, options = { tweet_mode: 'extended', count: 200, since_id: 1, max_id: 9_000_000_000_000_000_000 })
           # データベースに記録する情報は最新の情報にしたいので、API から取得した情報を用いる
           target_list_from_api = TwitterApi::CollectList.specific_list(list_identify)
           max_id_number_tweet_in_db = Tweet.by_specific_list_with_id_number(target_list_from_api.id).max_id_number
@@ -51,15 +51,15 @@ module Operations
         end
 
         # 初期化用
-        def write_by_specific_user_tweet(user_identify, options = { count: 200, since_id: 1, max_id: 9_000_000_000_000_000_000 })
+        def write_by_specific_user_tweet(user_identify, options = { tweet_mode: 'extended', count: 200, since_id: 1, max_id: 9_000_000_000_000_000_000 })
           tweets = TwitterApi::CollectTweet.all_by_specific_user(user_identify, options)
           ::Database::SaveTweet.by_specific_user_tweet(tweets)
         end
 
         # 2回目以降用
-        def write_next_tweet_by_specific_user_tweet(user_identify, options = { count: 200, since_id: 1, max_id: 9_000_000_000_000_000_000 })
-          target_user_from_api      = TwitterApi::CollectUser.specific_user(user_identify)
-          target_tweets_from_db     = Tweet.by_specific_user(target_user_from_api.id)
+        def write_next_tweet_by_specific_user_tweet(user_identify, options = { tweet_mode: 'extended', count: 200, since_id: 1, max_id: 9_000_000_000_000_000_000 })
+          target_user_from_api  = TwitterApi::CollectUser.specific_user(user_identify)
+          target_tweets_from_db = Tweet.by_specific_user_with_id_number(target_user_from_api.id)
           max_id_number_tweet_in_db = target_tweets_from_db.max_id_number
           options = options.merge({ since_id: max_id_number_tweet_in_db })
 
