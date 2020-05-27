@@ -9,9 +9,10 @@ module Operations
         target_date.in_time_zone('Asia/Tokyo'),
         target_date.tomorrow.in_time_zone('Asia/Tokyo')
       ).map(&:array_of_media_urls)
+      media_urls.flatten!
 
-      unless media_urls.flatten!.nil?
-        media_urls.flatten!.uniq!
+      unless media_urls.nil?
+        media_urls.uniq!
 
         filename = "media_urls_by_list_from_cosplayers_#{target_date.strftime('%Y%m%d')}.txt"
         File.open(Rails.root.join("tmp/#{filename}").to_s, 'w') do |f|
