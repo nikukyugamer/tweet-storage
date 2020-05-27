@@ -1,0 +1,19 @@
+ja:
+  activerecord:
+    models:
+      tweet: ツイートのモデル
+    attributes:
+      tweet:
+        id_number: Twitter側が付与したツイートID
+        full_text: ツイート全文
+        serialized_object: シリアライズされたツイートオブジェクト
+        type: STIにおけるクラス名
+        search_word: 検索ワード
+        user_id_number: Twitter側が付与したユーザID
+        list_id_number: Twitter側が付与したリストID
+    errors:
+      models:
+        tweet:
+          attributes:
+            search_word:
+              blank: "%{attribute}が存在している必要があります"
