@@ -101,7 +101,8 @@ module Database
           serialized_object: tweet.to_json,
           list: target_list,
           user: user,
-          user_id_number: user.id_number
+          user_id_number: user.id_number,
+          list_id_number: target_list.id_number
         )
         by_specific_list_tweet.save
       end
