@@ -17,7 +17,8 @@ module Database
           id_number: tweet.id,
           full_text: CGI.unescapeHTML(tweet.full_text),
           serialized_object: tweet.to_json,
-          search_word: search_query
+          search_word: search_query,
+          user_id_number: user.id_number
         )
         by_search_word_tweet.user = user
 
@@ -43,7 +44,8 @@ module Database
           id_number: tweet.id,
           full_text: CGI.unescapeHTML(tweet.full_text),
           serialized_object: tweet.to_json,
-          user: user
+          user: user,
+          user_id_number: user.id_number
         )
 
         by_specific_user_tweet.save
@@ -64,7 +66,8 @@ module Database
         by_specific_id_tweet = BySpecificIdTweet.new(
           id_number: tweet.id,
           full_text: CGI.unescapeHTML(tweet.full_text),
-          serialized_object: tweet.to_json
+          serialized_object: tweet.to_json,
+          user_id_number: user.id_number
         )
         by_specific_id_tweet.user = user
 
@@ -97,7 +100,8 @@ module Database
           full_text: CGI.unescapeHTML(tweet.full_text),
           serialized_object: tweet.to_json,
           list: target_list,
-          user: user
+          user: user,
+          user_id_number: user.id_number
         )
         by_specific_list_tweet.save
       end

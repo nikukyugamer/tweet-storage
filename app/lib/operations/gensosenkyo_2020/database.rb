@@ -43,7 +43,8 @@ module Operations
         def write_next_tweet_by_list(list_identify, options = { tweet_mode: 'extended', count: 200, since_id: 1, max_id: 9_000_000_000_000_000_000 })
           # データベースに記録する情報は最新の情報にしたいので、API から取得した情報を用いる
           target_list_from_api = TwitterApi::CollectList.specific_list(list_identify)
-          max_id_number_tweet_in_db = Tweet.by_specific_list_with_id_number(target_list_from_api.id).max_id_number
+          list_id_number = target_list_from_api.id
+          max_id_number_tweet_in_db = ByListTweet.where(list_id_number: list_id_number).max_id_number
           options = options.merge({ since_id: max_id_number_tweet_in_db })
 
           tweets = TwitterApi::CollectTweet.all_by_specific_list(list_identify, options)
@@ -60,9 +61,9 @@ module Operations
         def write_next_tweet_by_specific_user_tweet(user_identify, options = { tweet_mode: 'extended', count: 200, since_id: 1, max_id: 9_000_000_000_000_000_000 })
           # データベースに記録する情報は最新の情報にしたいので、API から取得した情報を用いる
           # FIXME: ユーザ情報取得に失敗すると Twitter::Error::NotFound: User not found. などが返ってくる
-          target_user_from_api  = TwitterApi::CollectUser.specific_user(user_identify)
-          target_tweets_from_db = Tweet.by_specific_user_with_id_number(target_user_from_api.id)
-          max_id_number_tweet_in_db = target_tweets_from_db.max_id_number
+          target_user_from_api = TwitterApi::CollectUser.specific_user(user_identify)
+          user_id_number = target_user_from_api.id
+          max_id_number_tweet_in_db = BySpecificUserTweet.where(user_id_number: user_id_number).max_id_number
           options = options.merge({ since_id: max_id_number_tweet_in_db })
 
           tweets = TwitterApi::CollectTweet.all_by_specific_user(user_identify, options)
