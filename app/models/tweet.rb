@@ -43,35 +43,22 @@ class Tweet < ApplicationRecord
   }
 
   # id_number 以外で List を指定すると一意性が保証されないので注意する
-  # Deprecated: 'list_id_number' というカラムを作ったし、n x n が発生して極めて遅いため、非推奨
   scope :by_specific_list_with_id_number, lambda { |list_id_number|
-    # 同一ユーザの複数レコードがヒットする
-    list_all_objects = List.where(id_number: list_id_number)
-    list_all_tweets = list_all_objects.map(&:tweets).flatten
-
-    list_all_tweets_id_numbers = list_all_tweets.map(&:id_number)
-    where(id_number: list_all_tweets_id_numbers)
+    # tweet_id_number が同一でも、取得時刻が異なるツイートは別々にヒットしている
+    where(list_id_number: list_id_number)
   }
 
   # id_number 以外で User を指定すると一意性が保証されないので注意する
   scope :by_specific_user_with_id_number, lambda { |user_id_number|
-    # 同一ユーザの複数レコードがヒットする
-    user_all_objects = User.where(id_number: user_id_number)
-    user_all_tweets = user_all_objects.map(&:tweets).flatten
-
-    user_all_tweets_id_numbers = user_all_tweets.map(&:id_number)
-    where(id_number: user_all_tweets_id_numbers)
+    # tweet_id_number が同一でも、取得時刻が異なるツイートは別々にヒットする
+    where(user_id_number: user_id_number)
   }
 
   # @gensosenkyo: 1471724029
   # id_number 以外で User を指定すると一意性が保証されないので注意する
   scope :remove_specific_user_with_id_number, lambda { |user_id_number|
-    # 同一ユーザの複数レコードがヒットする
-    user_all_objects = User.where(id_number: user_id_number)
-    user_all_tweets = user_all_objects.map(&:tweets).flatten
-
-    user_all_tweets_id_numbers = user_all_tweets.map(&:id_number)
-    where.not(id_number: user_all_tweets_id_numbers)
+    # tweet_id_number が同一でも、取得時刻が異なるツイートは別々にヒットしている
+    where.not(user_id_number: user_id_number)
   }
 
   # TODO: Refactoring
