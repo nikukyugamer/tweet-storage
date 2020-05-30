@@ -43,6 +43,7 @@ class Tweet < ApplicationRecord
   }
 
   # id_number 以外で List を指定すると一意性が保証されないので注意する
+  # Deprecated: 'list_id_number' というカラムを作ったし、n x n が発生して極めて遅いため、非推奨
   scope :by_specific_list_with_id_number, lambda { |list_id_number|
     # 同一ユーザの複数レコードがヒットする
     list_all_objects = List.where(id_number: list_id_number)
