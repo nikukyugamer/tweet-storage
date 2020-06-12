@@ -9,6 +9,7 @@ class Tweet < ApplicationRecord
   validates :id_number, presence: true
   validates :full_text, presence: true
   validates :serialized_object, presence: true
+  validates :tweeted_at, presence: true
 
   scope :order_by_id_number_desc, -> { order(id_number: :desc) }
   scope :order_by_id_number_asc, -> { order(id_number: :asc) }
