@@ -8,7 +8,7 @@ module Database
           number_of_tweets.each do |number|
             tweet = Tweet.find(number)
             # rubocop:disable Rails/SkipsModelValidations
-            tweet.update_attribute(:tweeted_at, t.deserialize.created_at)
+            tweet.update_attribute(:tweeted_at, tweet.deserialize.created_at)
             # rubocop:enable Rails/SkipsModelValidations
           end
 
