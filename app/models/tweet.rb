@@ -130,10 +130,6 @@ class Tweet < ApplicationRecord
     media.size.to_i
   end
 
-  def tweeted_at
-    deserialize.created_at
-  end
-
   # "2020/05/05（火） 20:54:45"
   def tweeted_at_in_japanese
     japanese_date_expression(tweeted_at.in_time_zone('Asia/Tokyo'))
