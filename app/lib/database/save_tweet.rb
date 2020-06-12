@@ -94,8 +94,7 @@ module Database
           id_number: tweet.user.id,
           handle: CGI.unescapeHTML(tweet.user.name),
           screen_name: CGI.unescapeHTML(tweet.user.screen_name),
-          serialized_object: tweet.user.to_json,
-          tweeted_at: tweet.created_at
+          serialized_object: tweet.user.to_json
         )
         user.save
 
@@ -106,7 +105,8 @@ module Database
           list: target_list,
           user: user,
           user_id_number: user.id_number,
-          list_id_number: target_list.id_number
+          list_id_number: target_list.id_number,
+          tweeted_at: tweet.created_at
         )
         by_specific_list_tweet.save
       end
