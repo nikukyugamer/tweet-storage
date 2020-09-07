@@ -6,6 +6,11 @@
 # TweetStorage
 - Tweet Storage
 
+# NOTE
+- THIS APP IS A MERE `LOGGER`
+- Please rebuild and use other database as main database which serves your purpose
+  - [Embulk](https://github.com/embulk/embulk) is recommended to transport your data
+
 # Rate limits
 
 ## Standard search API
