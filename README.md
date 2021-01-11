@@ -1,10 +1,15 @@
 |                |                                                                            master                                                                            |                                                                              development                                                                               |
 |:--------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-|    CircleCI    | [![TweetStorage (master)](https://circleci.com/gh/nikukyugamer/tweet-storage/tree/master.svg?style=svg)](https://circleci.com/gh/nikukyugamer/tweet-storage) | [![TweetStorage (development)](https://circleci.com/gh/nikukyugamer/tweet-storage/tree/development.svg?style=svg)](https://circleci.com/gh/nikukyugamer/tweet-storage) |
-| GitHub Actions |              ![GitHub Actions Status (master)](https://github.com/nikukyugamer/tweet-storage/workflows/Tweet%20Storage/badge.svg?branch=master)              |              ![GitHub Actions Status (development)](https://github.com/nikukyugamer/tweet-storage/workflows/Tweet%20Storage/badge.svg?branch=development)              |
+|    CircleCI    | [![TweetStorage (main)](https://circleci.com/gh/nikukyugamer/tweet-storage/tree/main.svg?style=svg)](https://circleci.com/gh/nikukyugamer/tweet-storage) | [![TweetStorage (development)](https://circleci.com/gh/nikukyugamer/tweet-storage/tree/development.svg?style=svg)](https://circleci.com/gh/nikukyugamer/tweet-storage) |
+| GitHub Actions |              ![GitHub Actions Status (master)](https://github.com/nikukyugamer/tweet-storage/workflows/Tweet%20Storage/badge.svg?branch=main)              |              ![GitHub Actions Status (development)](https://github.com/nikukyugamer/tweet-storage/workflows/Tweet%20Storage/badge.svg?branch=development)              |
 
 # TweetStorage
 - Tweet Storage
+
+# NOTE
+- THIS APP IS A MERE `LOGGER`
+- Please rebuild and use other database as main database which serves your purpose
+  - [Embulk](https://github.com/embulk/embulk) is recommended to transport your data
 
 # Rate limits
 
