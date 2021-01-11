@@ -10,11 +10,24 @@ default: &default
 production:
   <<: *default
   database: tweet_storage_production
+  host: <%= ENV['POSTGRES_HOST_PRODUCTION'] || 'localhost' %>
+  port: <%= ENV['POSTGRES_PORT_PRODUCTION'] || 5432 %>
+  username: <%= ENV['POSTGRES_USERNAME_PRODUCTION'] || 'tweet_storage' %>
+  password: <%= ENV['POSTGRES_PASSWORD_PRODUCTION'] || 'tweet_storage' %>
 
 development:
   <<: *default
   database: tweet_storage_development
+  host: <%= ENV['POSTGRES_HOST_DEVELOPMENT'] || 'localhost' %>
+  port: <%= ENV['POSTGRES_PORT_DEVELOPMENT'] || 5432 %>
+  username: <%= ENV['POSTGRES_USERNAME_DEVELOPMENT'] || 'tweet_storage' %>
+  password: <%= ENV['POSTGRES_PASSWORD_DEVELOPMENT'] || 'tweet_storage' %>
 
 test:
   <<: *default
   database: tweet_storage_test
+  host: <%= ENV['POSTGRES_HOST_TEST'] || 'localhost' %>
+  port: <%= ENV['POSTGRES_PORT_TEST'] || 5432 %>
+  username: <%= ENV['POSTGRES_USERNAME_TEST'] || 'tweet_storage' %>
+  password: <%= ENV['POSTGRES_PASSWORD_TEST'] || 'tweet_storage' %>
+
