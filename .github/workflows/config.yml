@@ -18,7 +18,7 @@ jobs:
           POSTGRES_PASSWORD: tweet_storage
           POSTGRES_USER_TEST: tweet_storage
           POSTGRES_PASSWORD_TEST: tweet_storage
-         options: >-
+         options:
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
