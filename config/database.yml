@@ -30,4 +30,3 @@ test:
   # port: <%= ENV['POSTGRES_PORT_TEST'] || 5432 %>
   # username: <%= ENV['POSTGRES_USERNAME_TEST'] || 'tweet_storage' %>
   # password: <%= ENV['POSTGRES_PASSWORD_TEST'] || 'tweet_storage' %>
-
