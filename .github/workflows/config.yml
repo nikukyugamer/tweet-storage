@@ -32,8 +32,8 @@ jobs:
       - name: Node.js のインストールを行う
         # https://github.com/nodesource/distributions/blob/master/README.md#debmanual
         run: |
-          curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-          sudo apt install -y nodejs
+          curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
+          apt install -y nodejs
       - name: Yarn のインストールを行う
         run: |
           curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
