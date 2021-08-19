@@ -27,6 +27,12 @@ jobs:
           command: |
             gem install bundler
       - run:
+          name: Install Node.js
+          # https://github.com/nodesource/distributions/blob/master/README.md#debmanual
+          command: |
+            curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+            sudo apt install -y nodejs
+      - run:
           name: Install Yarn
           command: |
             curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
