@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/ruby:2.7.2
+      - image: circleci/ruby:3.0.2
       - image: circleci/postgres:13.4
         environment:
           - POSTGRES_USER: tweet_storage
@@ -26,6 +26,12 @@ jobs:
           name: Install Bundler 2
           command: |
             gem install bundler
+      - run:
+          name: Install Node.js
+          # https://github.com/nodesource/distributions/blob/master/README.md#debmanual
+          command: |
+            curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+            sudo apt install -y nodejs
       - run:
           name: Install Yarn
           command: |
