@@ -23,6 +23,10 @@ jobs:
             - yarn-packages-v1-{{ .Branch }}-
             - yarn-packages-v1-
       - run:
+          name: Workaround for no-libffi.so.6 in the latest Ubuntu
+          command: |
+            sudo ln -s /usr/lib/x86_64-linux-gnu/libffi.so.7.1.0 /usr/lib/x86_64-linux-gnu/libffi.so.6
+      - run:
           name: Install Bundler 2
           command: |
             gem install bundler
@@ -38,7 +42,7 @@ jobs:
             curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
             echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
             sudo apt update --allow-releaseinfo-change
-            sudo apt-get update -y && sudo apt-get install yarn -y
+            sudo apt update -y && sudo apt install yarn -y
       - run:
           name: Bundle install
           command: |
