@@ -10,7 +10,7 @@ jobs:
         BUNDLE_PATH: vendor/bundle
     services:
       postgres:
-        image: postgres:12.2
+        image: postgres:13.4
         ports:
           - 5432:5432
         env:
