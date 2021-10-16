@@ -2,8 +2,8 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/ruby:2.7.2
-      - image: circleci/postgres:12.2
+      - image: circleci/ruby:3.0.2
+      - image: circleci/postgres:13.4
         environment:
           - POSTGRES_USER: tweet_storage
           - POSTGRES_PASSWORD: tweet_storage
@@ -23,15 +23,26 @@ jobs:
             - yarn-packages-v1-{{ .Branch }}-
             - yarn-packages-v1-
       - run:
+          name: Workaround for no-libffi.so.6 in the latest Ubuntu
+          command: |
+            sudo ln -s /usr/lib/x86_64-linux-gnu/libffi.so.7.1.0 /usr/lib/x86_64-linux-gnu/libffi.so.6
+      - run:
           name: Install Bundler 2
           command: |
             gem install bundler
+      - run:
+          name: Install Node.js
+          # https://github.com/nodesource/distributions/blob/master/README.md#debmanual
+          command: |
+            curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+            sudo apt install -y nodejs
       - run:
           name: Install Yarn
           command: |
             curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
             echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-            sudo apt-get update -y && sudo apt-get install yarn -y
+            sudo apt update --allow-releaseinfo-change
+            sudo apt update -y && sudo apt install yarn -y
       - run:
           name: Bundle install
           command: |
