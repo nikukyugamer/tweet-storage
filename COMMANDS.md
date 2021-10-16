@@ -326,11 +326,16 @@ pry> ByListTweet.find_by(id_number: 719421755110993920).list
 
 ```ruby
 target_list = List.find_(name: 'FOOBAR')
-media_urls = target_list.tweets.map {|tweet| tweet.array_of_media_urls }
+media_urls = target_list.tweets.map { |tweet| tweet.array_of_media_urls }
 media_urls.flatten!
 
 media_urls.each do |media_url|
-  command = "wget #{media_url}"
+  # media_url: https://pbs.twimg.com/media/FAlJ_JsUUAAgOSq?format=jpg&name=orig
+  # filename_without_extension: FAlJ_JsUUAAgOSq
+  # extension_without_dot: jpg
+  filename_without_extension = File.basename(/\A(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?\Z/.match(media_url)[5])
+  extension_without_dot = /\A.*\?format=(.*)&name=orig\Z/.match(media_url)[1]
+  command = "wget -nc '#{media_url}' -O #{filename_without_extension}.#{extension_without_dot}"
   `#{command}`
 end
 ```

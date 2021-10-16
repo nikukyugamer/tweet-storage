@@ -138,8 +138,14 @@ class Tweet < ApplicationRecord
 
   def array_of_media_urls
     media.map do |medium|
-      # The default parameter is 'name=orig'
-      medium.media_url_https.to_s
+      # media_url_https: https://pbs.twimg.com/media/FAlJ_JsUUAAgOSq.jpg
+      # 原寸大URL: https://pbs.twimg.com/media/FAlJ_JsUUAAgOSq?format=jpg&name=orig
+      url = medium.media_url_https.to_s
+      extension_including_dot = File.extname(url)
+      extension_without_dot = extension_including_dot[1..]
+      url_without_extension = url.gsub(extension_including_dot, '')
+
+      "#{url_without_extension}?format=#{extension_without_dot}&name=orig"
     end
   end
 
