@@ -5,7 +5,7 @@ jobs:
     name: Tweet Storage CI
     runs-on: ubuntu-latest
     container:
-      image: ruby:3.0.2
+      image: ruby:3.0.3
       env:
         BUNDLE_PATH: vendor/bundle
     services:

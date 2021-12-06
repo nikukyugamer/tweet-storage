@@ -2,6 +2,7 @@ version: 2
 jobs:
   build:
     docker:
+      # FIXME: 3.0.3 のイメージが配布され次第、更新する
       - image: circleci/ruby:3.0.2
       - image: circleci/postgres:13.5
         environment:
