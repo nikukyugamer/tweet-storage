@@ -9,6 +9,7 @@ gem 'google_drive'
 gem 'pg'
 gem 'pry-rails'
 gem 'rails'
+gem 'sprockets-rails'
 gem 'twitter'
 
 group :development do
