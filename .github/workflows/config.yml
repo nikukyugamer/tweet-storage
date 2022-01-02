@@ -8,6 +8,9 @@ jobs:
       image: ruby:3.1.0
       env:
         BUNDLE_PATH: vendor/bundle
+        POSTGRES_USERNAME: tweet_storage
+        POSTGRES_PASSWORD: tweet_storage
+        RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
     services:
       postgres:
         image: postgres:13.4
@@ -102,3 +105,6 @@ jobs:
         if: always()
         run: |
           bundle exec rubocop -D -E -S -P
+      - name: production で起動に失敗しないかを確認する
+        run: |
+          RAILS_ENV=production bundle exec rails runner 'puts "Hello, Rails World!"'

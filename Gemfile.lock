@@ -200,6 +200,14 @@ GEM
     multi_json (1.15.0)
     multipart-post (2.1.1)
     naught (1.1.0)
+    net-imap (0.2.2)
+      digest
+      net-protocol
+      strscan
+    net-pop (0.1.1)
+      digest
+      net-protocol
+      timeout
     net-protocol (0.1.2)
       io-wait
       timeout
@@ -296,6 +304,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+    strscan (3.0.1)
     thor (1.1.0)
     thread_safe (0.3.6)
     timeout (0.2.0)
@@ -333,6 +342,8 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   google_drive
+  net-imap
+  net-pop
   net-smtp
   pg
   pry-rails
