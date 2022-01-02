@@ -6,6 +6,7 @@ ruby '3.1.0'
 gem 'bootsnap', require: false
 gem 'dotenv-rails'
 gem 'google_drive'
+gem 'net-smtp', require: false
 gem 'pg'
 gem 'pry-rails'
 # https://github.com/rails/rails/issues/43998
