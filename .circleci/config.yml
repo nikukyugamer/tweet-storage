@@ -2,8 +2,8 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/ruby:3.0.3
-      - image: circleci/postgres:13.5
+      - image: cimg/ruby:3.1.0
+      - image: cimg/postgres:13.5
         environment:
           - POSTGRES_USER: tweet_storage
           - POSTGRES_PASSWORD: tweet_storage
