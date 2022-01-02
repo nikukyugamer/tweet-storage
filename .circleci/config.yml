@@ -2,8 +2,11 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/ruby:3.0.3
-      - image: circleci/postgres:13.5
+      - image: cimg/ruby:3.1.0
+        environment:
+          - POSTGRES_USERNAME: tweet_storage
+          - POSTGRES_PASSWORD: tweet_storage
+      - image: cimg/postgres:14.1
         environment:
           - POSTGRES_USER: tweet_storage
           - POSTGRES_PASSWORD: tweet_storage
@@ -65,15 +68,15 @@ jobs:
       - run:
           name: $ bundle exec rails db:create を行う
           command: |
-            bundle exec rails db:create
+            RAILS_ENV=test bundle exec rails db:create
       - run:
           name: $ bundle exec rails db:migrate を行う
           command: |
-            bundle exec rails db:migrate
+            RAILS_ENV=test bundle exec rails db:migrate
       - run:
           name: $ bundle exec rails db:seed を行う
           command: |
-            bundle exec rails db:seed
+            RAILS_ENV=test bundle exec rails db:seed
       - run:
           name: RuboCop
           command: bundle exec rubocop -D -E -S -P
@@ -90,6 +93,10 @@ jobs:
               --out /tmp/test-results/rspec.xml \
               --format progress \
               $TEST_FILES
+      - run:
+          name: production で起動に失敗しないかを確認する
+          command: |
+            RAILS_ENV=production bundle exec rails runner 'puts "Hello, Rails World!"'
       - run:
           name: Upload a CodeCov Reports
           command: |

@@ -1,14 +1,18 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.0.3'
+ruby '3.1.0'
 
 gem 'bootsnap', require: false
 gem 'dotenv-rails'
 gem 'google_drive'
+gem 'net-imap', require: false
+gem 'net-pop', require: false
+gem 'net-smtp', require: false
 gem 'pg'
 gem 'pry-rails'
-gem 'rails'
+# https://github.com/rails/rails/issues/43998
+gem 'rails', git: 'https://github.com/rails/rails', branch: '7-0-stable'
 gem 'sprockets-rails'
 gem 'twitter'
 
