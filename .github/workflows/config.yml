@@ -102,3 +102,6 @@ jobs:
         if: always()
         run: |
           bundle exec rubocop -D -E -S -P
+      - name: production で起動に失敗しないかを確認する
+        run: |
+          RAILS_ENV=production bundle exec rails runner 'puts "Hello, Rails World!"'
