@@ -200,6 +200,10 @@ GEM
     multi_json (1.15.0)
     multipart-post (2.1.1)
     naught (1.1.0)
+    net-pop (0.1.1)
+      digest
+      net-protocol
+      timeout
     net-protocol (0.1.2)
       io-wait
       timeout
@@ -333,6 +337,7 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   google_drive
+  net-pop
   net-smtp
   pg
   pry-rails
