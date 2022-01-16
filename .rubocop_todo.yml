@@ -150,5 +150,6 @@ Naming/AccessorMethodName:
 Rails/HelperInstanceVariable:
   Enabled: false
 
-AsciiComments:
-  Enabled: false
+# Warning: no department given for AsciiComments.
+# AsciiComments:
+#   Enabled: false
