@@ -13,6 +13,7 @@ gem 'pg'
 gem 'pry-rails'
 # https://github.com/rails/rails/issues/43998
 gem 'rails', git: 'https://github.com/rails/rails', branch: '7-0-stable'
+gem 'redis'
 gem 'sprockets-rails'
 gem 'twitter'
 
