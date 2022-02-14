@@ -1,6 +1,6 @@
 {
   "name": "tweet_storage",
-  "private": true,
+  "version": "0.1.0",
   "dependencies": {
     "@rails/actioncable": "7.0.2",
     "@rails/activestorage": "7.0.2",
@@ -8,8 +8,8 @@
     "@rails/webpacker": "5.4.3",
     "turbolinks": "5.2.0"
   },
-  "version": "0.1.0",
   "devDependencies": {
     "webpack-dev-server": "4.7.4"
-  }
+  },
+  "private": true
 }
