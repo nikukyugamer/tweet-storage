@@ -30,7 +30,7 @@ jobs:
           command: |
             sudo ln -s /usr/lib/x86_64-linux-gnu/libffi.so.7.1.0 /usr/lib/x86_64-linux-gnu/libffi.so.6
       - run:
-          name: Install Bundler 2
+          name: Install the latest Bundler
           command: |
             gem install bundler
       - run:
