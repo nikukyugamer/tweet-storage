@@ -94,10 +94,6 @@ jobs:
               --format progress \
               $TEST_FILES
       - run:
-          name: production で起動に失敗しないかを確認する
-          command: |
-            RAILS_ENV=production bundle exec rails runner 'puts "Hello, Rails World!"'
-      - run:
           name: Upload a CodeCov Reports
           command: |
             bash <(curl -s https://codecov.io/bash)
