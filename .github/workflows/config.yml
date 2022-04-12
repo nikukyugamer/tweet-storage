@@ -1,5 +1,5 @@
 on: [push]
-name: Tweet Storage
+name: (GitHub Actions) Tweet Storage
 jobs:
   tweet_storage_github_actions:
     name: Tweet Storage CI
