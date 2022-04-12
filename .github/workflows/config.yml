@@ -5,7 +5,7 @@ jobs:
     name: Tweet Storage CI
     runs-on: ubuntu-latest
     container:
-      image: ruby:3.1.1
+      image: ruby:3.1.2
       env:
         BUNDLE_PATH: vendor/bundle
         POSTGRES_USERNAME: tweet_storage
