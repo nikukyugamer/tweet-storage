@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_12_023837) do
-
+ActiveRecord::Schema[7.0].define(version: 2020_06_12_023837) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,8 +19,8 @@ ActiveRecord::Schema.define(version: 2020_06_12_023837) do
     t.string "name", null: false
     t.string "slug", null: false
     t.json "serialized_object", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["id_number"], name: "index_lists_on_id_number"
     t.index ["name"], name: "index_lists_on_name"
     t.index ["slug"], name: "index_lists_on_slug"
@@ -33,13 +32,13 @@ ActiveRecord::Schema.define(version: 2020_06_12_023837) do
     t.string "full_text", null: false
     t.json "serialized_object", null: false
     t.string "type"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "search_word"
     t.integer "list_id"
     t.bigint "user_id_number"
     t.bigint "list_id_number"
-    t.datetime "tweeted_at", default: "2000-01-01 12:00:00", null: false
+    t.datetime "tweeted_at", precision: nil, default: "2000-01-01 12:00:00", null: false
     t.index ["id_number"], name: "index_tweets_on_id_number"
     t.index ["list_id_number"], name: "index_tweets_on_list_id_number"
     t.index ["search_word"], name: "index_tweets_on_search_word"
@@ -52,8 +51,8 @@ ActiveRecord::Schema.define(version: 2020_06_12_023837) do
     t.string "handle", null: false
     t.string "screen_name", null: false
     t.json "serialized_object", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["handle"], name: "index_users_on_handle"
     t.index ["id_number"], name: "index_users_on_id_number"
     t.index ["screen_name"], name: "index_users_on_screen_name"
