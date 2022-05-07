@@ -19,7 +19,7 @@ module Operations
 
           # wget でダウンロードする際にファイル名を指定する（screen_name を付与したもの）
           original_filename = File.basename(URI.parse(media_url).path)
-          downloaded_filepath_with_screen_name = "../downloaded_media/#{target_date}/#{screen_name}_#{original_filename}"
+          downloaded_filepath_with_screen_name = "../downloaded_media/#{target_date.strftime('%Y%m%d')}/#{screen_name}_#{original_filename}"
 
           # media_url をそのまま使うと縮小版の画像になってしまうのでオリジナルサイズが得られる URL に変更する
           extension_including_dot = File.extname(media_url) # .jpg
