@@ -28,7 +28,7 @@ module Operations
           # https://pbs.twimg.com/media/FAlJ_JsUUAAgOSq?format=jpg&name=orig
           original_size_media_url = "#{url_without_extension}?format=#{extension_without_dot}&name=orig"
 
-          script_lines << "wget -O #{downloaded_filepath_with_screen_name} '#{original_size_media_url}'"
+          script_lines << "wget -nc -O #{downloaded_filepath_with_screen_name} '#{original_size_media_url}'"
         end
       end
 
@@ -36,13 +36,16 @@ module Operations
 
       script_lines.uniq!
       script_lines.reject!(&:empty?)
-      url_list_filename = "media_urls_by_list_from_cosplayers_#{target_date.strftime('%Y%m%d')}.txt"
+      url_list_filename = "media_urls_by_list_from_cosplayers_#{target_date.strftime('%Y%m%d')}.sh"
+      output_filepath = Rails.root.join("tmp/#{url_list_filename}").to_s
 
-      File.open(Rails.root.join("tmp/#{url_list_filename}").to_s, 'w') do |f|
-        f.puts "#!/bin/bash\n"
+      File.open(output_filepath, 'w') do |f|
+        f.puts "#!/bin/bash +e\n"
         f.puts script_lines
         f.puts "\nexit 0"
       end
+
+      FileUtils.chmod(0o755, output_filepath)
     end
   end
 end
