@@ -18,7 +18,7 @@ module Operations
           media_url = medium.media_url_https.to_s
 
           # wget でダウンロードする際にファイル名を指定する（screen_name を付与したもの）
-          original_filename = media_url.delete_prefix('https://pbs.twimg.com/media/')
+          original_filename = File.basename(URI.parse(media_url).path)
           downloaded_filepath_with_screen_name = "../downloaded_media/#{target_date}/#{screen_name}_#{original_filename}"
 
           # media_url をそのまま使うと縮小版の画像になってしまうのでオリジナルサイズが得られる URL に変更する
