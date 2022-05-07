@@ -1,5 +1,5 @@
 # https://github.com/release-drafter/release-drafter
-name: Release Drafter
+name: (GitHub Actions) Release Drafter
 on:
   push:
     branches:
