@@ -196,9 +196,9 @@ GEM
       net-protocol
       timeout
     nio4r (2.5.8)
-    nokogiri (1.13.4-aarch64-linux)
+    nokogiri (1.13.6-aarch64-linux)
       racc (~> 1.4)
-    nokogiri (1.13.4-x86_64-linux)
+    nokogiri (1.13.6-x86_64-linux)
       racc (~> 1.4)
     os (1.1.4)
     parallel (1.22.1)
