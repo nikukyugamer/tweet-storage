@@ -26,3 +26,9 @@ config/google_api_config.json
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+
+.history
+.vscode
+.DS_Store
+.envrc
+.docker
