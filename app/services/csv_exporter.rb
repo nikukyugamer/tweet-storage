@@ -11,7 +11,7 @@ class CsvExporter
   end
 
   def generate_csv(tweets)
-    CSV.generate(headers: headers, force_quotes: true) do |temp_csv_string|
+    CSV.generate(force_quotes: true) do |temp_csv_string|
       # NOTE: batch_size を使うと単位量ごとに並び替えが行われるので order が崩れるため、使わない
       tweets.each do |tweet|
         temp_csv_string << row_values(tweet)
@@ -24,6 +24,7 @@ class CsvExporter
 
     Rails.root.join(filepath).open('w') do |f|
       f.print bom
+      f.puts headers.join(',')
       f.puts csv
     end
   end
