@@ -7,7 +7,7 @@ class CsvExporter
     target_tweet_ids = BySearchWordTweet.where(search_word: search_word).remove_duplicated.pluck(:id_number).uniq
 
     @tweets = Tweet.where(id_number: target_tweet_ids).remove_duplicated.order(tweeted_at: :asc)
-    @without_rt_tweets = @tweets.remove_retweet
+    @without_rt_tweets = @tweets.remove_retweet.order(tweeted_at: :asc)
   end
 
   def generate_csv(tweets)
@@ -43,6 +43,38 @@ class CsvExporter
     )
     csv_exporter.save_file(
       csv_without_rt,
+      "tmp/#{Time.zone.now.strftime('%Y%m%d_%H%M%S')}_tweets_without_rt.csv"
+    )
+  end
+
+  # 完全に一点突破用メソッドなので、ここに書きたくはない
+  def self.meyasubako_okawari_3
+    ActiveRecord::Base.logger = nil
+
+    hankaku = CsvExporter.new('#ラジオ目安箱おかわり3杯目')
+    zenkaku = CsvExporter.new('#ラジオ目安箱おかわり３杯目')
+
+    # 最大限の取りこぼしを防ぐために和集合を取る
+    with_rt_hankaku_ids = hankaku.tweets.ids
+    with_rt_zenkaku_ids = zenkaku.tweets.ids
+    with_rt_ids = with_rt_hankaku_ids & with_rt_zenkaku_ids
+
+    without_rt_hankaku_ids = hankaku.without_rt_tweets.ids
+    without_rt_zenkaku_ids = zenkaku.without_rt_tweets.ids
+    without_rt_ids = without_rt_hankaku_ids & without_rt_zenkaku_ids
+
+    with_rt_tweets = Tweet.where(id: with_rt_ids).order(tweeted_at: :asc)
+    without_rt_tweets = Tweet.where(id: without_rt_ids).order(tweeted_at: :asc)
+
+    with_rt_csv = hankaku.generate_csv(with_rt_tweets)
+    without_rt_csv = hankaku.generate_csv(without_rt_tweets)
+
+    hankaku.save_file(
+      with_rt_csv,
+      "tmp/#{Time.zone.now.strftime('%Y%m%d_%H%M%S')}_tweets_with_rt.csv"
+    )
+    hankaku.save_file(
+      without_rt_csv,
       "tmp/#{Time.zone.now.strftime('%Y%m%d_%H%M%S')}_tweets_without_rt.csv"
     )
   end
