@@ -6,7 +6,7 @@ jobs:
         environment:
           - POSTGRES_USERNAME: tweet_storage
           - POSTGRES_PASSWORD: tweet_storage
-      - image: cimg/postgres:15.0
+      - image: cimg/postgres:15.1
         environment:
           - POSTGRES_USER: tweet_storage
           - POSTGRES_PASSWORD: tweet_storage
