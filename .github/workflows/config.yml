@@ -1,6 +1,13 @@
+name: Tweet Storage
+
 on:
   push:
-name: Tweet Storage
+    branches:
+      - '**'
+    tags-ignore:
+      - 'v*.*.*'
+  workflow_dispatch:
+
 jobs:
   tweet_storage_github_actions:
     name: Tweet Storage CI
