@@ -2,7 +2,7 @@
   "name": "tweet_storage",
   "version": "0.1.0",
   "dependencies": {
-    "@rails/actioncable": "7.0.5",
+    "@rails/actioncable": "7.0.6",
     "@rails/activestorage": "7.0.5",
     "@rails/ujs": "7.0.5",
     "@rails/webpacker": "5.4.4",
