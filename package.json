@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "dependencies": {
     "@rails/actioncable": "7.1.1",
-    "@rails/activestorage": "7.1.0",
+    "@rails/activestorage": "7.1.1",
     "@rails/ujs": "7.1.0",
     "@rails/webpacker": "5.4.4",
     "turbolinks": "5.2.0"
