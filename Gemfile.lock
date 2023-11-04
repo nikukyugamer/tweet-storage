@@ -204,7 +204,7 @@ GEM
     multipart-post (2.3.0)
     mutex_m (0.1.2)
     naught (1.1.0)
-    net-imap (0.4.3)
+    net-imap (0.4.4)
       date
       net-protocol
     net-pop (0.1.2)
